@@ -1,75 +1,89 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { useRouter } from 'expo-router';
 import { ScreenContainer } from '../components/ScreenContainer';
-import { Heading, Paragraph } from '../components/Typography';
-import { Spacing, Colors } from '../constants/design';
+import { Heading, MediumText, Paragraph } from '../components/Typography';
+import { Button } from '../components/Button';
+import { Spacing } from '../constants/design';
+import { useTheme } from '../context/ThemeContext';
+
+const SCALE = [1, 2, 3, 4, 5];
 
 export default function ReflectionScreen() {
-  const [emotionalRating, setEmotionalRating] = useState(5);
-  const [physicalRating, setPhysicalRating] = useState(5);
+  const router = useRouter();
+  const { colors } = useTheme();
+  const [emotionalRating, setEmotionalRating] = useState(3);
+  const [physicalRating, setPhysicalRating] = useState(3);
 
-  const RatingComponent = ({ value, onValueChange, label }: { value: number; onValueChange: (val: number) => void; label: string }) => {
-    return (
-      <View style={styles.ratingContainer}>
-        <Heading style={styles.heading}>{label}</Heading>
-        <View style={styles.starsContainer}>
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((star) => (
+  const RatingComponent = ({
+    value,
+    onValueChange,
+    label,
+  }: {
+    value: number;
+    onValueChange: (val: number) => void;
+    label: string;
+  }) => (
+    <View style={styles.ratingContainer}>
+      <Heading style={styles.heading}>{label}</Heading>
+      <View style={styles.scaleRow}>
+        {SCALE.map((score) => {
+          const isActive = score <= value;
+          return (
             <TouchableOpacity
-              key={star}
-              style={[styles.star, star <= value && styles.starFilled]}
-              onPress={() => onValueChange(star)}
-            />
-          ))}
-        </View>
-        <Paragraph style={styles.ratingText}>Rating: {value}/10</Paragraph>
+              key={score}
+              onPress={() => onValueChange(score)}
+              style={[
+                styles.scaleDot,
+                {
+                  borderColor: colors.border,
+                  backgroundColor: isActive ? colors.frameBackground : 'transparent',
+                },
+              ]}
+            >
+              <MediumText style={{ color: colors.white }}>{score}</MediumText>
+            </TouchableOpacity>
+          );
+        })}
       </View>
-    );
-  };
+      <Paragraph style={styles.ratingText}>You selected {value} / 5</Paragraph>
+    </View>
+  );
 
   return (
     <ScreenContainer scrollable>
-      <RatingComponent
-        value={emotionalRating}
-        onValueChange={setEmotionalRating}
-        label="Emotional Rating"
-      />
-      <RatingComponent
-        value={physicalRating}
-        onValueChange={setPhysicalRating}
-        label="Physical Rating"
-      />
+      <RatingComponent value={emotionalRating} onValueChange={setEmotionalRating} label="Emotional Rating" />
+      <RatingComponent value={physicalRating} onValueChange={setPhysicalRating} label="Physical Rating" />
+
+      <Button variant="horizontal" onPress={() => router.push('/')}>
+        Return to Landing Page
+      </Button>
     </ScreenContainer>
   );
 }
 
 const styles = StyleSheet.create({
   heading: {
-    marginTop: Spacing.screenPadding,
     marginBottom: Spacing.screenPadding / 2,
   },
   ratingContainer: {
     width: '100%',
-    marginBottom: Spacing.screenPadding * 2,
+    marginBottom: Spacing.screenPadding * 1.5,
   },
-  starsContainer: {
+  scaleRow: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
+    gap: Spacing.screenPadding / 3,
     marginBottom: Spacing.screenPadding / 2,
-    gap: Spacing.screenPadding / 4,
   },
-  star: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
+  scaleDot: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
     borderWidth: 2,
-    borderColor: Colors.border,
-    backgroundColor: 'transparent',
-  },
-  starFilled: {
-    backgroundColor: Colors.frameBackground,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   ratingText: {
-    marginTop: Spacing.screenPadding / 2,
+    marginTop: Spacing.screenPadding / 3,
   },
 });
-

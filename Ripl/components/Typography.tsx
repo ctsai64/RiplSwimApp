@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, TextProps } from 'react-native';
-import { Typography as TypographyStyles } from '../constants/design';
+import { TypographyScale } from '../constants/design';
+import { useTheme } from '../context/ThemeContext';
 
 interface TypographyComponentProps extends TextProps {
   variant?: 'title' | 'heading' | 'subheading' | 'mediumText' | 'paragraph';
@@ -13,8 +14,11 @@ export const Typography: React.FC<TypographyComponentProps> = ({
   children,
   ...props
 }) => {
+  const { colors } = useTheme();
+  const variantStyle = TypographyScale[variant];
+
   return (
-    <Text style={[TypographyStyles[variant], style]} {...props}>
+    <Text style={[variantStyle, { color: colors.text }, style]} {...props}>
       {children}
     </Text>
   );

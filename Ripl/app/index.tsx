@@ -10,7 +10,6 @@ import { Spacing } from '../constants/design';
 export default function LandingScreen() {
   const router = useRouter();
 
-  // Sample workout data
   const workouts = [
     { date: '2024-01-15', distance: '2000m', duration: '45min' },
     { date: '2024-01-17', distance: '1500m', duration: '35min' },
@@ -36,7 +35,7 @@ export default function LandingScreen() {
       <Button
         variant="horizontal"
         style={styles.addButton}
-        onPress={() => router.push('/capture-practice')}
+        onPress={() => router.push('/plan-practice')}
       >
         Add Workout+
       </Button>
@@ -47,23 +46,16 @@ export default function LandingScreen() {
           <Button
             variant="small"
             style={styles.exploreButton}
-            onPress={() => router.push('/my-plan')}
-          >
-            MyPlan
-          </Button>
-          <Button
-            variant="small"
-            style={styles.exploreButton}
-            onPress={() => router.push('/plan-practice')}
-          >
-            PlanPractice
-          </Button>
-          <Button
-            variant="small"
-            style={styles.exploreButton}
             onPress={() => router.push('/groups')}
           >
             Groups
+          </Button>
+          <Button
+            variant="small"
+            style={styles.exploreButton}
+            onPress={() => router.push('/timing')}
+          >
+            Timing
           </Button>
         </View>
       </View>

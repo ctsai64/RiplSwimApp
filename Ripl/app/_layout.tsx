@@ -7,10 +7,25 @@ import {
   Inter_500Medium,
   Inter_700Bold,
 } from "@expo-google-fonts/inter";
-import { Colors } from "../constants/design";
+import { ThemeProvider, useTheme } from "../context/ThemeContext";
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
+
+const ThemedStack = () => {
+  const { colors } = useTheme();
+
+  return (
+    <Stack
+      screenOptions={{
+        headerShown: false,
+        contentStyle: {
+          backgroundColor: colors.background,
+        },
+      }}
+    />
+  );
+};
 
 export default function RootLayout() {
   const [fontsLoaded, fontError] = useFonts({
@@ -30,19 +45,8 @@ export default function RootLayout() {
   }
 
   return (
-    <Stack
-      screenOptions={{
-        headerStyle: {
-          backgroundColor: Colors.background,
-        },
-        headerTintColor: Colors.text,
-        headerTitleStyle: {
-          fontWeight: "700",
-        },
-        contentStyle: {
-          backgroundColor: Colors.background,
-        },
-      }}
-    />
+    <ThemeProvider>
+      <ThemedStack />
+    </ThemeProvider>
   );
 }

@@ -1,21 +1,41 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { ScreenContainer } from '../components/ScreenContainer';
-import { Heading, Paragraph } from '../components/Typography';
+import { Heading, MediumText, Paragraph } from '../components/Typography';
 import { Frame2 } from '../components/Frame2';
 import { Button } from '../components/Button';
 import { Spacing } from '../constants/design';
 
 export default function EditPracticeScreen() {
   const router = useRouter();
+  const params = useLocalSearchParams<{
+    title?: string;
+    date?: string;
+    sets?: string;
+  }>();
 
-  // Sample sets data
-  const sets = [
-    { name: 'Sample Set' },
-    { name: 'Sample Set' },
-    { name: 'Sample Set' },
-  ];
+  const parsedSets = useMemo(() => {
+    if (params.sets) {
+      try {
+        const candidate = JSON.parse(params.sets as string);
+        if (Array.isArray(candidate)) {
+          return candidate;
+        }
+      } catch {
+        // ignore malformed payloads
+      }
+    }
+
+    return [
+      { name: 'Warm-up Set', description: '200m easy swim' },
+      { name: 'Main Set', description: '6 x 100m build' },
+      { name: 'Cool Down', description: '100m easy' },
+    ];
+  }, [params.sets]);
+
+  const practiceTitle = (params.title as string) || 'Practice';
+  const practiceDate = (params.date as string) || 'Date TBD';
 
   const handleNext = () => {
     // Navigate to Reflection (can be changed to Timing)
@@ -24,20 +44,24 @@ export default function EditPracticeScreen() {
 
   return (
     <ScreenContainer scrollable>
-      <Heading style={styles.header}>Practice</Heading>
+      <Heading style={styles.header}>{practiceTitle}</Heading>
+      <Heading style={styles.dateHeading}>{practiceDate}</Heading>
 
       <Button
         variant="horizontal"
         style={styles.captureButton}
         onPress={() => router.push('/capture-practice')}
       >
-        Capture Practice
+        Capture Sets
       </Button>
 
       <View style={styles.setsContainer}>
-        {sets.map((set, index) => (
+        {parsedSets.map((set, index) => (
           <Frame2 key={index} style={styles.setFrame}>
             <Paragraph style={styles.setText}>{set.name}</Paragraph>
+            {set.description ? (
+              <MediumText style={styles.setDescription}>{set.description}</MediumText>
+            ) : null}
           </Frame2>
         ))}
       </View>
@@ -56,6 +80,9 @@ export default function EditPracticeScreen() {
 
 const styles = StyleSheet.create({
   header: {
+    marginBottom: Spacing.screenPadding / 4,
+  },
+  dateHeading: {
     marginBottom: Spacing.screenPadding,
   },
   captureButton: {
@@ -70,7 +97,10 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.screenPadding / 2,
   },
   setText: {
-    color: '#FFFFFF',
+    marginBottom: 4,
+  },
+  setDescription: {
+    opacity: 0.8,
   },
   buttonContainer: {
     width: '100%',

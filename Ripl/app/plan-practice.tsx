@@ -1,56 +1,124 @@
-import React from 'react';
-import { TextInput, StyleSheet } from 'react-native';
+import React, { useMemo, useState } from 'react';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { useRouter } from 'expo-router';
 import { ScreenContainer } from '../components/ScreenContainer';
-import { Heading } from '../components/Typography';
-import { Spacing, Colors } from '../constants/design';
+import { Heading, MediumText, Paragraph } from '../components/Typography';
+import { Button } from '../components/Button';
+import { Spacing } from '../constants/design';
+import { useTheme } from '../context/ThemeContext';
 
-export default function PlanPracticeScreen() {
+const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+export default function PlanPracticeSetTimeScreen() {
+  const router = useRouter();
+  const { colors } = useTheme();
+  const [selectedDate, setSelectedDate] = useState<number | null>(null);
+
+  const calendarDays = useMemo(() => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = today.getMonth();
+    const firstDayIndex = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    const totalCells = Math.ceil((firstDayIndex + daysInMonth) / 7) * 7;
+    return Array.from({ length: totalCells }, (_, index) => {
+      const dayNumber = index - firstDayIndex + 1;
+      return dayNumber > 0 && dayNumber <= daysInMonth ? dayNumber : null;
+    });
+  }, []);
+
   return (
     <ScreenContainer scrollable>
-      <Heading style={styles.heading}>Set Time</Heading>
-      <TextInput
-        style={styles.input}
-        placeholder="Enter set time..."
-        placeholderTextColor={Colors.text}
-      />
+      <Heading style={styles.heading}>LET’S FIND A TIME TO SWIM</Heading>
+      <MediumText style={styles.subheading}>Pick the day that works best</MediumText>
 
-      <Heading style={styles.heading}>Details</Heading>
-      <TextInput
-        style={[styles.input, styles.textArea]}
-        placeholder="Enter details..."
-        placeholderTextColor={Colors.text}
-        multiline
-        numberOfLines={4}
-      />
+      <View style={styles.calendarHeader}>
+        <MediumText>Current Month</MediumText>
+      </View>
 
-      <Heading style={styles.heading}>People</Heading>
-      <TextInput
-        style={styles.input}
-        placeholder="Enter people..."
-        placeholderTextColor={Colors.text}
-      />
+      <View style={styles.calendar}>
+        {DAYS.map((day) => (
+          <Paragraph key={day} style={styles.calendarDayLabel}>
+            {day}
+          </Paragraph>
+        ))}
+        {calendarDays.map((day, index) => {
+          const isSelected = selectedDate === day;
+          return (
+            <TouchableOpacity
+              key={`${day}-${index}`}
+              accessibilityRole="button"
+              style={[
+                styles.calendarCell,
+                {
+                  borderColor: colors.border,
+                  backgroundColor: isSelected ? colors.frameBackground : 'transparent',
+                },
+              ]}
+              disabled={!day}
+              onPress={() => setSelectedDate(day)}
+            >
+              <Paragraph style={{ color: isSelected ? colors.white : colors.text }}>
+                {day ?? ''}
+              </Paragraph>
+            </TouchableOpacity>
+          );
+        })}
+      </View>
+
+      <View style={styles.buttonRow}>
+        <Button variant="small" onPress={() => router.back()}>
+          Back
+        </Button>
+        <Button variant="small" onPress={() => router.push('/my-plan')}>
+          Skip
+        </Button>
+        <Button variant="small" onPress={() => router.push('/plan-practice-depth')}>
+          Next
+        </Button>
+      </View>
     </ScreenContainer>
   );
 }
 
 const styles = StyleSheet.create({
   heading: {
-    marginTop: Spacing.screenPadding,
-    marginBottom: Spacing.screenPadding / 2,
+    marginBottom: Spacing.screenPadding / 3,
   },
-  input: {
-    width: '100%',
-    borderWidth: 1,
-    borderColor: Colors.border,
-    borderRadius: Spacing.borderRadius.button,
-    padding: Spacing.screenPadding / 2,
-    color: Colors.text,
-    fontSize: 15.79,
+  subheading: {
     marginBottom: Spacing.screenPadding,
   },
-  textArea: {
-    minHeight: 100,
-    textAlignVertical: 'top',
+  calendarHeader: {
+    width: '100%',
+    alignItems: 'flex-start',
+    marginBottom: Spacing.screenPadding / 2,
+  },
+  calendar: {
+    width: '100%',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginBottom: Spacing.screenPadding * 1.5,
+  },
+  calendarDayLabel: {
+    width: `${100 / 7}%`,
+    textAlign: 'center',
+    marginBottom: Spacing.screenPadding / 6,
+  },
+  calendarCell: {
+    width: `${100 / 7}%`,
+    aspectRatio: 1,
+    borderWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: Spacing.screenPadding / 6,
+    borderRadius: 12,
+  },
+  buttonRow: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: Spacing.screenPadding / 2,
   },
 });
 

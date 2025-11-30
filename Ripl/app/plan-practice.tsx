@@ -2,8 +2,8 @@ import React, { useMemo, useState } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import { ScreenContainer } from '../components/ScreenContainer';
-import { Heading, MediumText, Paragraph } from '../components/Typography';
-import { Button } from '../components/Button';
+import { Heading, MediumText, Paragraph, Title } from '../components/Typography';
+import { Button, ProgressBar } from '../components';
 import { Spacing } from '../constants/design';
 import { useTheme } from '../context/ThemeContext';
 
@@ -31,8 +31,8 @@ export default function PlanPracticeSetTimeScreen() {
   return (
     <View style={styles.wrapper}>
       <ScreenContainer scrollable style={styles.screenContent}>
-        <Heading style={styles.heading}>LET’S FIND A TIME TO SWIM</Heading>
-        <MediumText style={styles.subheading}>Pick the day that works best</MediumText>
+        <ProgressBar currentStep={1} />
+        <Title style={styles.heading}>Let's find the time to swim.</Title>
 
         <View style={styles.calendarHeader}>
           <MediumText>Current Month</MediumText>
@@ -71,14 +71,11 @@ export default function PlanPracticeSetTimeScreen() {
 
       <View style={styles.buttonHost} pointerEvents="box-none">
         <View style={styles.buttonRow}>
-          <Button variant="small" onPress={() => router.back()}>
-            Back
-          </Button>
-          <Button variant="small" onPress={() => router.push('/my-plan')}>
-            Skip
-          </Button>
-          <Button variant="small" onPress={() => router.push('/plan-practice-depth')}>
+        <Button variant="small" onPress={() => router.push('/plan-practice-depth')}>
             Next
+          </Button>
+          <Button variant="text" onPress={() => router.push('/plan-practice-depth')}>
+            Later
           </Button>
         </View>
       </View>
@@ -127,14 +124,14 @@ const styles = StyleSheet.create({
   buttonHost: {
     ...StyleSheet.absoluteFillObject,
     justifyContent: 'flex-end',
-    alignItems: 'center',
+    //alignItems: 'center',
     paddingBottom: Spacing.screenPadding,
     paddingHorizontal: Spacing.screenPadding,
   },
   buttonRow: {
     width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: 'row-reverse',
+    //justifyContent: 'space-between',
     gap: Spacing.screenPadding / 2,
   },
 });

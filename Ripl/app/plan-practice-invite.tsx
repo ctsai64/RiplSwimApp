@@ -2,8 +2,8 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { ScreenContainer } from '../components/ScreenContainer';
-import { Heading, MediumText, Paragraph } from '../components/Typography';
-import { Button } from '../components/Button';
+import { Heading, MediumText, Paragraph, Title } from '../components/Typography';
+import { Button, ProgressBar } from '../components';
 import { Frame2 } from '../components/Frame2';
 import { Spacing } from '../constants/design';
 
@@ -13,24 +13,17 @@ export default function PlanPracticeInviteScreen() {
   return (
     <View style={styles.wrapper}>
       <ScreenContainer scrollable style={styles.screenContent}>
-        <Heading style={styles.heading}>INVITE FRIENDS</Heading>
-        <MediumText style={styles.subheading}>Share the plan with your crew</MediumText>
-
-        <Frame2 style={styles.placeholder}>
-          <Paragraph>Invites + contact picker placeholder</Paragraph>
-        </Frame2>
+        <ProgressBar currentStep={3} />
+        <Title style={styles.heading}>Invite any friends?</Title>
       </ScreenContainer>
 
       <View style={styles.buttonHost} pointerEvents="box-none">
         <View style={styles.buttonRow}>
-          <Button variant="small" onPress={() => router.back()}>
-            Back
-          </Button>
           <Button variant="small" onPress={() => router.push('/my-plan')}>
-            Skip
+            Let's Go!
           </Button>
-          <Button variant="small" onPress={() => router.push('/my-plan')}>
-            Next
+          <Button variant="text" onPress={() => router.push('/my-plan')}>
+            Later
           </Button>
         </View>
       </View>
@@ -61,14 +54,14 @@ const styles = StyleSheet.create({
   buttonHost: {
     ...StyleSheet.absoluteFillObject,
     justifyContent: 'flex-end',
-    alignItems: 'center',
+    //alignItems: 'center',
     paddingBottom: Spacing.screenPadding,
     paddingHorizontal: Spacing.screenPadding,
   },
   buttonRow: {
     width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: 'row-reverse',
+    //justifyContent: 'space-between',
     gap: Spacing.screenPadding / 2,
   },
 });

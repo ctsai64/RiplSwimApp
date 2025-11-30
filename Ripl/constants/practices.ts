@@ -15,18 +15,18 @@ export const PRACTICES: Practice[] = [
   {
     id: 'jan-15',
     title: 'Workout',
-    dateLabel: 'Mon, Jan 15 · 6:00 AM',
-    people: '3 swimmers confirmed',
+    dateLabel: 'WEDS 5:15 - 6:45 p.m.',
+    people: 'with Dom and 1 other',
     sets: [
-      { name: 'Warm-up', description: '300m easy swim + drills' },
-      { name: 'Main Set', description: '6 x 200m negative split' },
-      { name: 'Cool Down', description: '200m choice' },
+      { name: 'Example Set 1', description: '2900 yd • 1hr 30 min' },
+      { name: 'Example Set 1', description: '2900 yd • 1hr 30 min' },
+      { name: 'Example Set 1', description: '2900 yd • 1hr 30 min' },
     ],
   },
   {
     id: 'jan-17',
     title: 'Midweek Speed',
-    dateLabel: 'Wed, Jan 17 · 6:15 AM',
+    dateLabel: 'Wed, Jan 17 - 6:15 AM',
     people: '5 swimmers confirmed',
     sets: [
       { name: 'Warm-up', description: '200m easy + 4 x 50 build' },

@@ -4,7 +4,7 @@ import { Spacing, TypographyScale, FontFamily } from '../constants/design';
 import { useTheme } from '../context/ThemeContext';
 
 interface ButtonProps extends TouchableOpacityProps {
-  variant?: 'horizontal' | 'small';
+  variant?: 'horizontal' | 'small' | 'text';
   children: React.ReactNode;
 }
 
@@ -15,15 +15,15 @@ export const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   const { colors } = useTheme();
-  const buttonStyle = variant === 'horizontal' ? styles.horizontalButton : styles.smallButton;
-  const textStyle = variant === 'horizontal' ? styles.horizontalText : styles.smallText;
+  const buttonStyle = variant === 'horizontal' ? styles.horizontalButton : variant === 'small' ? styles.smallButton : styles.textButton;
+  const textStyle = variant === 'horizontal' ? styles.horizontalText : variant === 'small' ? styles.smallText : styles.textText;
 
   return (
     <TouchableOpacity
-      style={[styles.baseButton, { backgroundColor: colors.frameBackground }, buttonStyle, style]}
+      style={[styles.baseButton, variant !== 'text' && { backgroundColor: colors.frameBackground }, buttonStyle, style]}
       {...props}
     >
-      <Text style={[styles.baseText, { color: colors.white }, textStyle]}>{String(children).toUpperCase()}</Text>
+      <Text style={[styles.baseText, { color: variant === 'text' ? '#d9d9d9' : colors.white }, textStyle]}>{String(children).toUpperCase()}</Text>
     </TouchableOpacity>
   );
 };
@@ -42,7 +42,12 @@ const styles = StyleSheet.create({
   },
   smallButton: {
     width: 'auto',
-    alignSelf: 'flex-start',
+    alignSelf: 'flex-end',
+  },
+  textButton: {
+    width: 'auto',
+    alignSelf: 'flex-end',
+    backgroundColor: 'transparent',
   },
   baseText: {
     fontWeight: '700',
@@ -52,10 +57,13 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
   horizontalText: {
-    fontSize: TypographyScale.heading.fontSize,
+    fontSize: TypographyScale.subheading.fontSize,
   },
   smallText: {
-    fontSize: TypographyScale.mediumText.fontSize,
+    fontSize: TypographyScale.paragraph.fontSize,
+  },
+  textText: {
+    fontSize: TypographyScale.paragraph.fontSize,
   },
 });
 

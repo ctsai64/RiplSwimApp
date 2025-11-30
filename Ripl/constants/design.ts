@@ -20,7 +20,7 @@ export const LightColors: ThemeColors = {
   white: '#FFFFFF',
   border: '#E5E7EB',
   frameBackground: '#d9d9d9',
-  frame2Background: '#F3F4F6',
+  frame2Background: '#d9d9d9',
   menuBackground: '#FFFFFF',
   menuOverlay: 'rgba(0, 0, 0, 0.5)',
   highlight,
@@ -56,7 +56,7 @@ export const TypographyScale = {
   },
   heading: {
     fontFamily: FontFamily.bold,
-    fontSize: 20.36,
+    fontSize: 26.33,
     fontWeight: '700' as const,
     lineHeight: 26.33,
     letterSpacing: 0,

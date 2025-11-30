@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, StyleSheet, View, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import { ScreenContainer } from '../components/ScreenContainer';
 import { Heading, MediumText, Paragraph, Subheading } from '../components/Typography';
@@ -27,27 +27,38 @@ export default function MyPlanScreen() {
   return (
     <View style={styles.wrapper}>
       <ScreenContainer scrollable style={styles.screenContent}>
-        <Heading style={styles.sectionHeading}>Upcoming Practice</Heading>
+        <Heading>Upcoming Practice</Heading>
         <Image
           source={require('../assets/images/weekview.png')}
           style={styles.weekView}
           resizeMode="contain"
         />
 
-        <Frame1 style={styles.practiceCard} onPress={handleOpenPractice}>
-          <Subheading style={styles.practiceTitle}>{currentPractice.title}</Subheading>
-          <Paragraph style={styles.practiceMeta}>{currentPractice.dateLabel}</Paragraph>
-          <Paragraph style={styles.practiceMeta}>{currentPractice.people}</Paragraph>
-
+        <TouchableOpacity style={styles.practiceCard} onPress={handleOpenPractice}>
           <View style={styles.setsContainer}>
             {currentPractice.sets.map((set: PracticeSet) => (
-              <Frame2 key={set.name} style={styles.setItem}>
-                <MediumText>{set.name}</MediumText>
-                <Paragraph>{set.description}</Paragraph>
-              </Frame2>
+              <View style={{flexDirection: 'row',
+                alignItems: 'center'}}>
+              <Image
+                source={require('../assets/images/circle.png')}
+                resizeMode="contain"
+                style={{ width: 50, height: 50, marginRight: Spacing.screenPadding / 3 }}
+              />
+              <Frame1 key={set.name} style={styles.setItem}>
+                  <Subheading>{set.name}</Subheading>
+                  <Paragraph style={styles.practiceMeta}>{currentPractice.dateLabel}</Paragraph>
+                  <Paragraph style={styles.practiceMeta}>{currentPractice.people}</Paragraph>
+                  <MediumText>{set.description}</MediumText>
+                  <Button
+                    variant="small"
+                  >
+                    Join
+                  </Button>
+              </Frame1>
+              </View>
             ))}
           </View>
-        </Frame1>
+        </TouchableOpacity>
       </ScreenContainer>
 
       <View style={styles.fabHost} pointerEvents="box-none">
@@ -70,16 +81,12 @@ const styles = StyleSheet.create({
   screenContent: {
     paddingBottom: Spacing.screenPadding * 4,
   },
-  sectionHeading: {
-    marginBottom: Spacing.screenPadding / 2,
-  },
   weekView: {
     width: '100%',
-    borderRadius: 12,
-    marginVertical: Spacing.screenPadding / 3,
   },
   practiceCard: {
-    width: '100%',
+    width: '80%',
+    backgroundColor: 'transparent',
   },
   practiceTitle: {
     marginBottom: Spacing.screenPadding / 4,
@@ -88,11 +95,12 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.screenPadding / 6,
   },
   setsContainer: {
-    marginTop: Spacing.screenPadding / 2,
+    marginTop: Spacing.screenPadding / 8,
     gap: Spacing.screenPadding / 2,
   },
   setItem: {
     width: '100%',
+    padding: Spacing.screenPadding / 2,
   },
   fabHost: {
     ...StyleSheet.absoluteFillObject,
@@ -101,7 +109,7 @@ const styles = StyleSheet.create({
     paddingBottom: Spacing.screenPadding,
   },
   fab: {
-    width: 240,
+    width: '75%',
   },
 });
 

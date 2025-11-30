@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { ScreenContainer } from '../components/ScreenContainer';
-import { Heading, MediumText, Paragraph } from '../components/Typography';
-import { Button } from '../components/Button';
+import { Heading, MediumText, Paragraph, Title } from '../components/Typography';
+import { Button, ProgressBar } from '../components';
 import { Spacing } from '../constants/design';
 import { useTheme } from '../context/ThemeContext';
 
@@ -17,8 +17,8 @@ export default function PlanPracticeDepthScreen() {
   return (
     <View style={styles.wrapper}>
       <ScreenContainer scrollable style={styles.screenContent}>
-        <Heading style={styles.heading}>HOW DEEP ARE WE DIVING</Heading>
-        <MediumText style={styles.subheading}>Choose the vibe for this practice</MediumText>
+        <ProgressBar currentStep={2} />
+        <Title style={styles.heading}>How deep are we diving?</Title>
 
         <View style={styles.optionList}>
           {OPTIONS.map((option) => {
@@ -29,8 +29,8 @@ export default function PlanPracticeDepthScreen() {
                 style={[
                   styles.option,
                   {
-                    borderColor: colors.border,
-                    backgroundColor: isActive ? colors.frame2Background : 'transparent',
+                    borderColor: colors.white,
+                    backgroundColor: isActive ? colors.white : 'transparent',
                   },
                 ]}
                 onPress={() => setSelection(option)}
@@ -45,7 +45,7 @@ export default function PlanPracticeDepthScreen() {
                 >
                   {isActive && <View style={[styles.radioInner, { backgroundColor: colors.frameBackground }]} />}
                 </View>
-                <Paragraph style={[styles.optionLabel, { color: colors.text }]}>{option}</Paragraph>
+                <MediumText style={[styles.optionLabel, { color: colors.text }]}>{option}</MediumText>
               </TouchableOpacity>
             );
           })}
@@ -54,14 +54,11 @@ export default function PlanPracticeDepthScreen() {
 
       <View style={styles.buttonHost} pointerEvents="box-none">
         <View style={styles.buttonRow}>
-          <Button variant="small" onPress={() => router.back()}>
-            Back
-          </Button>
-          <Button variant="small" onPress={() => router.push('/my-plan')}>
-            Skip
-          </Button>
-          <Button variant="small" onPress={() => router.push('/plan-practice-invite')}>
+        <Button variant="small" onPress={() => router.push('/plan-practice-invite')}>
             Next
+          </Button>
+          <Button variant="text" onPress={() => router.push('/plan-practice-invite')}>
+            Later
           </Button>
         </View>
       </View>
@@ -114,14 +111,14 @@ const styles = StyleSheet.create({
   buttonHost: {
     ...StyleSheet.absoluteFillObject,
     justifyContent: 'flex-end',
-    alignItems: 'center',
+    //alignItems: 'center',
     paddingBottom: Spacing.screenPadding,
     paddingHorizontal: Spacing.screenPadding,
   },
   buttonRow: {
     width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: 'row-reverse',
+    //justifyContent: 'space-between',
     gap: Spacing.screenPadding / 2,
   },
 });

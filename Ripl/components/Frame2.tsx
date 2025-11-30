@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, ViewProps, StyleSheet } from 'react-native';
-import { Spacing } from '../constants/design';
+import { View, ViewProps, StyleSheet, Text } from 'react-native';
+import { Spacing, TypographyScale, FontFamily } from '../constants/design';
 import { useTheme } from '../context/ThemeContext';
+
 
 interface Frame2Props extends ViewProps {
   children: React.ReactNode;

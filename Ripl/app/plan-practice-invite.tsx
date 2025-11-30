@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
     paddingBottom: Spacing.screenPadding,
+    paddingHorizontal: Spacing.screenPadding,
   },
   buttonRow: {
     width: '100%',

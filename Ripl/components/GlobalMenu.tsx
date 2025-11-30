@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Modal, Pressable, StyleSheet, Switch, TouchableOpacity, View } from 'react-native';
+import { useRouter } from 'expo-router';
 import { Spacing } from '../constants/design';
 import { useTheme } from '../context/ThemeContext';
 import { MediumText, Paragraph } from './Typography';
 
 export const GlobalMenu: React.FC = () => {
-  const { colors } = useTheme();
+  const router = useRouter();
+  const { colors, isDarkMode, toggleDarkMode } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -37,6 +39,24 @@ export const GlobalMenu: React.FC = () => {
             ]}
           >
             <MediumText style={[styles.menuHeading, { color: colors.highlight }]}>Menu</MediumText>
+            <TouchableOpacity
+              style={[styles.menuItem, { borderColor: colors.border }]}
+              onPress={() => {
+                setIsOpen(false);
+                router.replace('/');
+              }}
+            >
+              <Paragraph style={[styles.menuLabel, { color: colors.text }]}>Return to Landing Page</Paragraph>
+            </TouchableOpacity>
+            <View style={[styles.menuItem, { borderColor: colors.border }]}>
+              <Paragraph style={[styles.menuLabel, { color: colors.text }]}>Dark Mode</Paragraph>
+              <Switch
+                value={isDarkMode}
+                onValueChange={toggleDarkMode}
+                trackColor={{ false: '#94A3B8', true: '#22C55E' }}
+                thumbColor={isDarkMode ? '#22C55E' : '#E2E8F0'}
+              />
+            </View>
           </View>
         </View>
       </Modal>

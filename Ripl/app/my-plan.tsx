@@ -75,7 +75,6 @@ const styles = StyleSheet.create({
   },
   weekView: {
     width: '100%',
-    aspectRatio: 1.8,
     borderRadius: 12,
     marginVertical: Spacing.screenPadding / 3,
   },

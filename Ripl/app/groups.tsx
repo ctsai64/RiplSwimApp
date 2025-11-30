@@ -24,7 +24,7 @@ export default function GroupsScreen() {
       <Image
         source={require('../assets/images/weekview.png')}
         style={styles.weekView}
-        resizeMode="cover"
+        resizeMode="contain"
       />
 
       <View style={styles.setList}>
@@ -60,7 +60,6 @@ const styles = StyleSheet.create({
   },
   weekView: {
     width: '100%',
-    aspectRatio: 1.8,
     borderRadius: 12,
     marginVertical: Spacing.screenPadding / 3,
   },

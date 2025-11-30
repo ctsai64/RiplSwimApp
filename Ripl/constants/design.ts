@@ -14,15 +14,15 @@ export type ThemeColors = {
 const highlight = '#6AB6FC';
 
 export const LightColors: ThemeColors = {
-  background: '#0B0F16',
-  backgroundSecondary: '#161B26',
-  text: '#F4F7FB',
+  background: '#FFFFFF',
+  backgroundSecondary: '#F8F9FA',
+  text: '#BABABA',
   white: '#FFFFFF',
-  border: '#2A3140',
+  border: '#E5E7EB',
   frameBackground: highlight,
-  frame2Background: '#1F2430',
-  menuBackground: '#131823',
-  menuOverlay: 'rgba(6, 7, 10, 0.8)',
+  frame2Background: '#F3F4F6',
+  menuBackground: '#FFFFFF',
+  menuOverlay: 'rgba(0, 0, 0, 0.5)',
   highlight,
 };
 

@@ -54,13 +54,13 @@ export default function PlanPracticeSetTimeScreen() {
                   styles.calendarCell,
                   {
                     borderColor: colors.border,
-                    backgroundColor: isSelected ? colors.frameBackground : 'transparent',
+                    backgroundColor: 'transparent',
                   },
                 ]}
                 disabled={!day}
                 onPress={() => setSelectedDate(day)}
               >
-                <Paragraph style={{ color: isSelected ? colors.white : colors.text }}>
+                <Paragraph style={{ color: colors.text }}>
                   {day ?? ''}
                 </Paragraph>
               </TouchableOpacity>
@@ -129,6 +129,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
     paddingBottom: Spacing.screenPadding,
+    paddingHorizontal: Spacing.screenPadding,
   },
   buttonRow: {
     width: '100%',

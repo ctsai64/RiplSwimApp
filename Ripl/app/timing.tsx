@@ -72,33 +72,32 @@ export default function TimingScreen() {
   const latestSplit = useMemo(() => (splits.length ? splits[splits.length - 1] : null), [splits]);
 
   return (
-    <ScreenContainer scrollable>
-       <View style={{flexDirection: 'row',
-                alignItems: 'center'}}>
+    <ScreenContainer>
+       <View style={{flexDirection: 'row', alignItems: 'flex-start'}}>
                   <Image
                 source={require('../assets/images/track.png')}
                 resizeMode="contain"
                 style={{marginRight: 10}}
               />
-        <View style={{width: '75%'}}>
-        <Heading style={styles.meta}>100 yd FREE</Heading>
-        {latestSplit !== null ? (
-          <Heading style={styles.splitMeta}>50         {formatTime(latestSplit)}</Heading>
-        ) : null}
+        <View style={{width: '75%', marginTop: 100}}>
+            <Heading style={{marginBottom: Spacing.screenPadding / 4}}>100 yd FREE</Heading>
+            {latestSplit !== null ? (
+              <Heading style={styles.splitMeta}>50         {formatTime(latestSplit)}</Heading>
+            ) : <Heading style={styles.splitMeta}>50</Heading>
+            }
+          <Title style={styles.time}>{formatTime(elapsedMs)}</Title>
 
-        <Title style={styles.time}>{formatTime(elapsedMs)}</Title>
-
-        <View style={styles.buttonRow}>
-          <Button variant="horizontal" style={styles.buttonGrow} onPress={() => (isRunning ? stopTimer() : startTimer())}>
-            {mainActionLabel}
-          </Button>
-          <Button variant="text" style={styles.buttonGrow} onPress={handleUndoSplit}>
-            Undo
-          </Button>
-          <Button variant="small" style={styles.buttonGrow} onPress={handleSplit}>
-            Split
-          </Button>
-        </View>
+          <View style={styles.buttonRow}>
+            <Button variant="horizontal" style={styles.buttonGrow} onPress={() => (isRunning ? stopTimer() : startTimer())}>
+              {mainActionLabel}
+            </Button>
+            <Button variant="text" style={styles.buttonGrow} onPress={handleUndoSplit}>
+              Undo
+            </Button>
+            <Button variant="small" style={styles.buttonGrow} onPress={handleSplit}>
+              Split
+            </Button>
+          </View>
         </View>
         </View>
     </ScreenContainer>
@@ -106,20 +105,15 @@ export default function TimingScreen() {
 }
 
 const styles = StyleSheet.create({
-  screenContent: {
-    padding: Spacing.screenPadding * 4,
-  },
   heading: {
     marginBottom: Spacing.screenPadding / 2,
-  },
-  meta: {
-    marginBottom: Spacing.screenPadding / 3,
   },
   time: {
     marginTop: Spacing.screenPadding /3,
     marginBottom: Spacing.screenPadding /3,
     alignSelf: 'flex-start',
     fontSize: 60,
+    lineHeight: 60,
     fontWeight: '700',
     color: '#828282',
   },

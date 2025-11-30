@@ -28,7 +28,7 @@ export default function GroupsScreen() {
       </View>
       <Paragraph style={styles.members}>90 members</Paragraph>
       <Paragraph style={[styles.description]}>
-        We are a . We practice at<br/> <br/>Meets: <br/>MON 5:30 - 7:00 p.m. <br/>WEDS 5:15 - 6:45 p.m. <br/>SAT 9:00 - 10 a.m.
+        We are a . We practice at{'\n\n'}Meets:{'\n'}MON 5:30 - 7:00 p.m.{'\n'}WEDS 5:15 - 6:45 p.m.{'\n'}SAT 9:00 - 10 a.m.
       </Paragraph>
 
       <Heading style={styles.upcomingLabel}>Upcoming Practices</Heading>

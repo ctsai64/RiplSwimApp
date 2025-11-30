@@ -86,7 +86,7 @@ export const TypographyScale = {
 };
 
 export const Spacing = {
-  screenPadding: 50,
+  screenPadding: 30,
   buttonPadding: { vertical: 8, horizontal: 22 },
   borderRadius: {
     frame1: 23,

@@ -11,30 +11,40 @@ export default function PlanPracticeInviteScreen() {
   const router = useRouter();
 
   return (
-    <ScreenContainer scrollable>
-      <Heading style={styles.heading}>INVITE FRIENDS</Heading>
-      <MediumText style={styles.subheading}>Share the plan with your crew</MediumText>
+    <View style={styles.wrapper}>
+      <ScreenContainer scrollable style={styles.screenContent}>
+        <Heading style={styles.heading}>INVITE FRIENDS</Heading>
+        <MediumText style={styles.subheading}>Share the plan with your crew</MediumText>
 
-      <Frame2 style={styles.placeholder}>
-        <Paragraph>Invites + contact picker placeholder</Paragraph>
-      </Frame2>
+        <Frame2 style={styles.placeholder}>
+          <Paragraph>Invites + contact picker placeholder</Paragraph>
+        </Frame2>
+      </ScreenContainer>
 
-      <View style={styles.buttonRow}>
-        <Button variant="small" onPress={() => router.back()}>
-          Back
-        </Button>
-        <Button variant="small" onPress={() => router.push('/my-plan')}>
-          Skip
-        </Button>
-        <Button variant="small" onPress={() => router.push('/my-plan')}>
-          Next
-        </Button>
+      <View style={styles.buttonHost} pointerEvents="box-none">
+        <View style={styles.buttonRow}>
+          <Button variant="small" onPress={() => router.back()}>
+            Back
+          </Button>
+          <Button variant="small" onPress={() => router.push('/my-plan')}>
+            Skip
+          </Button>
+          <Button variant="small" onPress={() => router.push('/my-plan')}>
+            Next
+          </Button>
+        </View>
       </View>
-    </ScreenContainer>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  wrapper: {
+    flex: 1,
+  },
+  screenContent: {
+    paddingBottom: Spacing.screenPadding * 4,
+  },
   heading: {
     marginBottom: Spacing.screenPadding / 3,
   },
@@ -47,6 +57,12 @@ const styles = StyleSheet.create({
   },
   routeButton: {
     marginBottom: Spacing.screenPadding,
+  },
+  buttonHost: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    paddingBottom: Spacing.screenPadding,
   },
   buttonRow: {
     width: '100%',

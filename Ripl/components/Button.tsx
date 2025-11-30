@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
   horizontalText: {
-    fontSize: TypographyScale.heading.fontSize,
+    fontSize: TypographyScale.mediumText.fontSize,
   },
   smallText: {
     fontSize: TypographyScale.mediumText.fontSize,

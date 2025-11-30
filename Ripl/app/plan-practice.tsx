@@ -29,60 +29,70 @@ export default function PlanPracticeSetTimeScreen() {
   }, []);
 
   return (
-    <ScreenContainer scrollable>
-      <Heading style={styles.heading}>LET’S FIND A TIME TO SWIM</Heading>
-      <MediumText style={styles.subheading}>Pick the day that works best</MediumText>
+    <View style={styles.wrapper}>
+      <ScreenContainer scrollable style={styles.screenContent}>
+        <Heading style={styles.heading}>LET’S FIND A TIME TO SWIM</Heading>
+        <MediumText style={styles.subheading}>Pick the day that works best</MediumText>
 
-      <View style={styles.calendarHeader}>
-        <MediumText>Current Month</MediumText>
-      </View>
+        <View style={styles.calendarHeader}>
+          <MediumText>Current Month</MediumText>
+        </View>
 
-      <View style={styles.calendar}>
-        {DAYS.map((day) => (
-          <Paragraph key={day} style={styles.calendarDayLabel}>
-            {day}
-          </Paragraph>
-        ))}
-        {calendarDays.map((day, index) => {
-          const isSelected = selectedDate === day;
-          return (
-            <TouchableOpacity
-              key={`${day}-${index}`}
-              accessibilityRole="button"
-              style={[
-                styles.calendarCell,
-                {
-                  borderColor: colors.border,
-                  backgroundColor: isSelected ? colors.frameBackground : 'transparent',
-                },
-              ]}
-              disabled={!day}
-              onPress={() => setSelectedDate(day)}
-            >
-              <Paragraph style={{ color: isSelected ? colors.white : colors.text }}>
-                {day ?? ''}
-              </Paragraph>
-            </TouchableOpacity>
-          );
-        })}
-      </View>
+        <View style={styles.calendar}>
+          {DAYS.map((day) => (
+            <Paragraph key={day} style={styles.calendarDayLabel}>
+              {day}
+            </Paragraph>
+          ))}
+          {calendarDays.map((day, index) => {
+            const isSelected = selectedDate === day;
+            return (
+              <TouchableOpacity
+                key={`${day}-${index}`}
+                accessibilityRole="button"
+                style={[
+                  styles.calendarCell,
+                  {
+                    borderColor: colors.border,
+                    backgroundColor: isSelected ? colors.frameBackground : 'transparent',
+                  },
+                ]}
+                disabled={!day}
+                onPress={() => setSelectedDate(day)}
+              >
+                <Paragraph style={{ color: isSelected ? colors.white : colors.text }}>
+                  {day ?? ''}
+                </Paragraph>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
+      </ScreenContainer>
 
-      <View style={styles.buttonRow}>
-        <Button variant="small" onPress={() => router.back()}>
-          Back
-        </Button>
-        <Button variant="small" onPress={() => router.push('/my-plan')}>
-          Skip
-        </Button>
-        <Button variant="small" onPress={() => router.push('/plan-practice-depth')}>
-          Next
-        </Button>
+      <View style={styles.buttonHost} pointerEvents="box-none">
+        <View style={styles.buttonRow}>
+          <Button variant="small" onPress={() => router.back()}>
+            Back
+          </Button>
+          <Button variant="small" onPress={() => router.push('/my-plan')}>
+            Skip
+          </Button>
+          <Button variant="small" onPress={() => router.push('/plan-practice-depth')}>
+            Next
+          </Button>
+        </View>
       </View>
-    </ScreenContainer>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  wrapper: {
+    flex: 1,
+  },
+  screenContent: {
+    paddingBottom: Spacing.screenPadding * 4,
+  },
   heading: {
     marginBottom: Spacing.screenPadding / 3,
   },
@@ -113,6 +123,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: Spacing.screenPadding / 6,
     borderRadius: 12,
+  },
+  buttonHost: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    paddingBottom: Spacing.screenPadding,
   },
   buttonRow: {
     width: '100%',

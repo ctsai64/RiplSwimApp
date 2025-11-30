@@ -5,7 +5,7 @@ import { useTheme } from '../context/ThemeContext';
 import { MediumText, Paragraph } from './Typography';
 
 export const GlobalMenu: React.FC = () => {
-  const { colors, isDarkMode, toggleDarkMode } = useTheme();
+  const { colors } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -37,15 +37,6 @@ export const GlobalMenu: React.FC = () => {
             ]}
           >
             <MediumText style={[styles.menuHeading, { color: colors.highlight }]}>Menu</MediumText>
-            <View style={[styles.menuItem, { borderColor: colors.border }]}>
-              <Paragraph style={[styles.menuLabel, { color: colors.white }]}>Dark Mode</Paragraph>
-              <Switch
-                value={isDarkMode}
-                onValueChange={toggleDarkMode}
-                trackColor={{ false: '#94A3B8', true: '#22C55E' }}
-                thumbColor={isDarkMode ? '#22C55E' : '#E2E8F0'}
-              />
-            </View>
           </View>
         </View>
       </Modal>

@@ -7,31 +7,7 @@ import { Frame1 } from '../components/Frame1';
 import { Frame2 } from '../components/Frame2';
 import { Button } from '../components/Button';
 import { Spacing } from '../constants/design';
-
-const PRACTICES = [
-  {
-    id: 'jan-15',
-    title: 'Workout',
-    dateLabel: 'Mon, Jan 15 · 6:00 AM',
-    people: '3 swimmers confirmed',
-    sets: [
-      { name: 'Warm-up', description: '300m easy swim + drills' },
-      { name: 'Main Set', description: '6 x 200m negative split' },
-      { name: 'Cool Down', description: '200m choice' },
-    ],
-  },
-  {
-    id: 'jan-17',
-    title: 'Midweek Speed',
-    dateLabel: 'Wed, Jan 17 · 6:15 AM',
-    people: '5 swimmers confirmed',
-    sets: [
-      { name: 'Warm-up', description: '200m easy + 4 x 50 build' },
-      { name: 'Speed', description: '12 x 50m @ :55' },
-      { name: 'Cool Down', description: '100m choice' },
-    ],
-  },
-];
+import { PRACTICES, PracticeSet } from '../constants/practices';
 
 export default function MyPlanScreen() {
   const router = useRouter();
@@ -55,7 +31,7 @@ export default function MyPlanScreen() {
         <Image
           source={require('../assets/images/weekview.png')}
           style={styles.weekView}
-          resizeMode="cover"
+          resizeMode="contain"
         />
 
         <Frame1 style={styles.practiceCard} onPress={handleOpenPractice}>
@@ -64,7 +40,7 @@ export default function MyPlanScreen() {
           <Paragraph style={styles.practiceMeta}>{currentPractice.people}</Paragraph>
 
           <View style={styles.setsContainer}>
-            {currentPractice.sets.map((set) => (
+            {currentPractice.sets.map((set: PracticeSet) => (
               <Frame2 key={set.name} style={styles.setItem}>
                 <MediumText>{set.name}</MediumText>
                 <Paragraph>{set.description}</Paragraph>

@@ -15,57 +15,67 @@ export default function PlanPracticeDepthScreen() {
   const [selection, setSelection] = useState(OPTIONS[0]);
 
   return (
-    <ScreenContainer scrollable>
-      <Heading style={styles.heading}>HOW DEEP ARE WE DIVING</Heading>
-      <MediumText style={styles.subheading}>Choose the vibe for this practice</MediumText>
+    <View style={styles.wrapper}>
+      <ScreenContainer scrollable style={styles.screenContent}>
+        <Heading style={styles.heading}>HOW DEEP ARE WE DIVING</Heading>
+        <MediumText style={styles.subheading}>Choose the vibe for this practice</MediumText>
 
-      <View style={styles.optionList}>
-        {OPTIONS.map((option) => {
-          const isActive = option === selection;
-          return (
-            <TouchableOpacity
-              key={option}
-              style={[
-                styles.option,
-                {
-                  borderColor: colors.border,
-                  backgroundColor: isActive ? colors.frame2Background : 'transparent',
-                },
-              ]}
-              onPress={() => setSelection(option)}
-            >
-              <View
+        <View style={styles.optionList}>
+          {OPTIONS.map((option) => {
+            const isActive = option === selection;
+            return (
+              <TouchableOpacity
+                key={option}
                 style={[
-                  styles.radioOuter,
+                  styles.option,
                   {
                     borderColor: colors.border,
+                    backgroundColor: isActive ? colors.frame2Background : 'transparent',
                   },
                 ]}
+                onPress={() => setSelection(option)}
               >
-                {isActive && <View style={[styles.radioInner, { backgroundColor: colors.frameBackground }]} />}
-              </View>
-              <Paragraph style={[styles.optionLabel, { color: colors.text }]}>{option}</Paragraph>
-            </TouchableOpacity>
-          );
-        })}
-      </View>
+                <View
+                  style={[
+                    styles.radioOuter,
+                    {
+                      borderColor: colors.border,
+                    },
+                  ]}
+                >
+                  {isActive && <View style={[styles.radioInner, { backgroundColor: colors.frameBackground }]} />}
+                </View>
+                <Paragraph style={[styles.optionLabel, { color: colors.text }]}>{option}</Paragraph>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
+      </ScreenContainer>
 
-      <View style={styles.buttonRow}>
-        <Button variant="small" onPress={() => router.back()}>
-          Back
-        </Button>
-        <Button variant="small" onPress={() => router.push('/my-plan')}>
-          Skip
-        </Button>
-        <Button variant="small" onPress={() => router.push('/plan-practice-invite')}>
-          Next
-        </Button>
+      <View style={styles.buttonHost} pointerEvents="box-none">
+        <View style={styles.buttonRow}>
+          <Button variant="small" onPress={() => router.back()}>
+            Back
+          </Button>
+          <Button variant="small" onPress={() => router.push('/my-plan')}>
+            Skip
+          </Button>
+          <Button variant="small" onPress={() => router.push('/plan-practice-invite')}>
+            Next
+          </Button>
+        </View>
       </View>
-    </ScreenContainer>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  wrapper: {
+    flex: 1,
+  },
+  screenContent: {
+    paddingBottom: Spacing.screenPadding * 4,
+  },
   heading: {
     marginBottom: Spacing.screenPadding / 3,
   },
@@ -100,6 +110,12 @@ const styles = StyleSheet.create({
   },
   optionLabel: {
     flex: 1,
+  },
+  buttonHost: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    paddingBottom: Spacing.screenPadding,
   },
   buttonRow: {
     width: '100%',

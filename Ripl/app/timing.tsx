@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Image } from 'react-native';
 import { ScreenContainer } from '../components/ScreenContainer';
 import { Heading, MediumText, Paragraph, Title } from '../components/Typography';
 import { Button } from '../components/Button';
@@ -10,7 +10,12 @@ const formatTime = (ms: number) => {
   const minutes = Math.floor(ms / 60000);
   const seconds = Math.floor((ms % 60000) / 1000);
   const hundredths = Math.floor((ms % 1000) / 10);
-  return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}.${String(hundredths).padStart(2, '0')}`;
+
+  if (minutes > 0) {
+    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}.${String(hundredths).padStart(2, '0')}`;
+  } else {
+    return `${String(seconds).padStart(2, '0')}.${String(hundredths).padStart(2, '0')}`;
+  }
 };
 
 export default function TimingScreen() {
@@ -68,58 +73,58 @@ export default function TimingScreen() {
 
   return (
     <ScreenContainer scrollable>
-      <Heading style={styles.heading}>Timing Log</Heading>
-      <MediumText style={styles.meta}>Distance: 500m</MediumText>
-      <MediumText style={styles.meta}>Stroke: Freestyle</MediumText>
-      <MediumText style={styles.meta}>Split Target: 50m</MediumText>
+       <View style={{flexDirection: 'row',
+                alignItems: 'center'}}>
+                  <Image
+                source={require('../assets/images/track.png')}
+                resizeMode="contain"
+                style={{marginRight: 10}}
+              />
+        <View style={{width: '75%'}}>
+        <Heading style={styles.meta}>100 yd FREE</Heading>
+        {latestSplit !== null ? (
+          <Heading style={styles.splitMeta}>50         {formatTime(latestSplit)}</Heading>
+        ) : null}
 
-      <Title style={styles.time}>{formatTime(elapsedMs)}</Title>
-      {latestSplit !== null ? (
-        <Paragraph style={styles.splitMeta}>Last split: {formatTime(latestSplit)}</Paragraph>
-      ) : null}
+        <Title style={styles.time}>{formatTime(elapsedMs)}</Title>
 
-      <View style={styles.buttonRow}>
-        <Button variant="small" style={styles.buttonGrow} onPress={() => (isRunning ? stopTimer() : startTimer())}>
-          {mainActionLabel}
-        </Button>
-        <Button variant="small" style={styles.buttonGrow} onPress={handleSplit}>
-          Split
-        </Button>
-        <Button variant="small" style={styles.buttonGrow} onPress={handleUndoSplit}>
-          Undo split
-        </Button>
-      </View>
-
-      <Button variant="horizontal" style={styles.endButton} onPress={handleEndLog}>
-        End Log
-      </Button>
-
-      <View style={styles.splitsList}>
-        {splits.map((splitTime, index) => (
-          <Frame2 key={`${splitTime}-${index}`} style={styles.splitItem}>
-            <MediumText>Split {index + 1}</MediumText>
-            <Paragraph>{formatTime(splitTime)}</Paragraph>
-          </Frame2>
-        ))}
-      </View>
+        <View style={styles.buttonRow}>
+          <Button variant="horizontal" style={styles.buttonGrow} onPress={() => (isRunning ? stopTimer() : startTimer())}>
+            {mainActionLabel}
+          </Button>
+          <Button variant="text" style={styles.buttonGrow} onPress={handleUndoSplit}>
+            Undo
+          </Button>
+          <Button variant="small" style={styles.buttonGrow} onPress={handleSplit}>
+            Split
+          </Button>
+        </View>
+        </View>
+        </View>
     </ScreenContainer>
   );
 }
 
 const styles = StyleSheet.create({
+  screenContent: {
+    padding: Spacing.screenPadding * 4,
+  },
   heading: {
     marginBottom: Spacing.screenPadding / 2,
   },
   meta: {
-    marginBottom: Spacing.screenPadding / 4,
+    marginBottom: Spacing.screenPadding / 3,
   },
   time: {
-    marginTop: Spacing.screenPadding,
-    marginBottom: Spacing.screenPadding / 2,
+    marginTop: Spacing.screenPadding /3,
+    marginBottom: Spacing.screenPadding /3,
     alignSelf: 'flex-start',
+    fontSize: 60,
+    fontWeight: '700',
+    color: '#828282',
   },
   splitMeta: {
-    marginBottom: Spacing.screenPadding,
+    fontWeight: '100',
   },
   buttonRow: {
     flexDirection: 'row',

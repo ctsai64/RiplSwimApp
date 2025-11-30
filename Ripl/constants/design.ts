@@ -16,10 +16,10 @@ const highlight = '#6AB6FC';
 export const LightColors: ThemeColors = {
   background: '#FFFFFF',
   backgroundSecondary: '#F8F9FA',
-  text: '#BABABA',
+  text: '#d9d9d9',
   white: '#FFFFFF',
   border: '#E5E7EB',
-  frameBackground: highlight,
+  frameBackground: '#d9d9d9',
   frame2Background: '#F3F4F6',
   menuBackground: '#FFFFFF',
   menuOverlay: 'rgba(0, 0, 0, 0.5)',
@@ -43,6 +43,7 @@ export const FontFamily = {
   regular: 'Inter_400Regular',
   medium: 'Inter_500Medium',
   bold: 'Inter_700Bold',
+  thin: 'Inter_100Thin',
 };
 
 export const TypographyScale = {
@@ -50,22 +51,23 @@ export const TypographyScale = {
     fontFamily: FontFamily.bold,
     fontSize: 44.85,
     fontWeight: '700' as const,
-    lineHeight: 44.85,
+    lineHeight: 45,
     letterSpacing: 0,
   },
   heading: {
     fontFamily: FontFamily.bold,
-    fontSize: 26.33,
+    fontSize: 20.36,
     fontWeight: '700' as const,
     lineHeight: 26.33,
     letterSpacing: 0,
   },
   subheading: {
     fontFamily: FontFamily.bold,
-    fontSize: 20.39,
+    fontSize: 16.76,
     fontWeight: '700' as const,
     lineHeight: 20.39,
     letterSpacing: 0,
+    marginBottom: 10,
   },
   mediumText: {
     fontFamily: FontFamily.bold,
@@ -84,7 +86,7 @@ export const TypographyScale = {
 };
 
 export const Spacing = {
-  screenPadding: 30,
+  screenPadding: 50,
   buttonPadding: { vertical: 8, horizontal: 22 },
   borderRadius: {
     frame1: 23,

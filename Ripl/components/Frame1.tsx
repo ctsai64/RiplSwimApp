@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     borderRadius: Spacing.borderRadius.frame1,
     borderWidth: Border.frame1.width,
     alignSelf: 'center',
-    padding: Spacing.screenPadding / 2,
+    padding: Spacing.screenPadding / 1.5,
     width: '100%',
   },
 });

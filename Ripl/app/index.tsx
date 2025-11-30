@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Image } from 'react-native';
 import { useRouter } from 'expo-router';
 import { ScreenContainer } from '../components/ScreenContainer';
 import { Title, Heading, Subheading, Paragraph } from '../components/Typography';
@@ -11,37 +11,43 @@ export default function LandingScreen() {
   const router = useRouter();
 
   const workouts = [
-    { date: '2024-01-15', distance: '2000m', duration: '45min' },
-    { date: '2024-01-17', distance: '1500m', duration: '35min' },
-    { date: '2024-01-19', distance: '3000m', duration: '60min' },
+    { name: 'WORKOUT 1', distance: '2350 yd', duration: '1 hr 15 min' },
+    { name: 'WORKOUT 2', distance: '2350 yd', duration: '1 hr 15 min' },
+    { name: 'WORKOUT 3', distance: '2350 yd', duration: '1 hr 15 min' },
   ];
 
   return (
     <ScreenContainer scrollable>
-      <Title style={styles.title}>Welcome, USERNAME.</Title>
-      <Heading style={styles.heading}>My Plan</Heading>
+      <Title style={[styles.title]}>Welcome, Aaron.</Title>
+      <Subheading>MY PLAN</Subheading>
 
       <Frame1 style={styles.workoutFrame} onPress={() => router.push('/my-plan')}>
         {workouts.map((workout, index) => (
-          <View key={workout.date} style={styles.workoutEntry}>
-            <Subheading>{workout.date} Workout</Subheading>
-            <Paragraph>
-              {workout.distance} | {workout.duration}
-            </Paragraph>
+          <View key={workout.name} style={styles.workoutEntry}>
+            <Image
+              source={require('../assets/images/circle.png')}
+              resizeMode="contain"
+              style={{ width: 50, height: 50, marginRight: Spacing.screenPadding / 3 }}
+            />
+            <View>
+              <Heading>{workout.name}</Heading>
+              <Paragraph>
+                {workout.distance} • {workout.duration}
+              </Paragraph>
+            </View>
           </View>
         ))}
-      </Frame1>
-
-      <Button
+        <Button
         variant="horizontal"
-        style={styles.addButton}
         onPress={() => router.push('/plan-practice')}
       >
         Add Workout+
       </Button>
+      </Frame1>
+
 
       <View style={styles.exploreSection}>
-        <Heading style={styles.exploreHeading}>Explore</Heading>
+        <Heading style={styles.exploreHeading}>EXPLORE</Heading>
         <View style={styles.exploreButtons}>
           <Button
             variant="small"
@@ -65,9 +71,6 @@ export default function LandingScreen() {
 
 const styles = StyleSheet.create({
   title: {
-    marginBottom: Spacing.screenPadding / 2,
-  },
-  heading: {
     marginBottom: Spacing.screenPadding,
   },
   workoutFrame: {
@@ -76,10 +79,9 @@ const styles = StyleSheet.create({
   },
   workoutEntry: {
     width: '100%',
-    marginBottom: Spacing.screenPadding / 2,
-  },
-  addButton: {
-    marginBottom: Spacing.screenPadding,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: Spacing.screenPadding / 4,
   },
   exploreSection: {
     width: '100%',

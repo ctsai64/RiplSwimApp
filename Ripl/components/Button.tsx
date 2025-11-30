@@ -31,11 +31,11 @@ export const Button: React.FC<ButtonProps> = ({
 const styles = StyleSheet.create({
   baseButton: {
     borderRadius: Spacing.borderRadius.button,
-    paddingVertical: Spacing.buttonPadding.vertical * 2,
+    paddingVertical: Spacing.buttonPadding.vertical,
     paddingHorizontal: Spacing.buttonPadding.horizontal,
     alignItems: 'center',
     justifyContent: 'center',
-    minHeight: 64,
+    marginTop: 10,
   },
   horizontalButton: {
     width: '100%',
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
   horizontalText: {
-    fontSize: TypographyScale.mediumText.fontSize,
+    fontSize: TypographyScale.heading.fontSize,
   },
   smallText: {
     fontSize: TypographyScale.mediumText.fontSize,

@@ -1,50 +1,70 @@
 import React from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 import { ScreenContainer } from '../components/ScreenContainer';
-import { Frame2 } from '../components/Frame2';
-import { Heading, MediumText, Paragraph } from '../components/Typography';
+import { Frame1 } from '../components/Frame1';
+import { Heading, Subheading, MediumText, Paragraph } from '../components/Typography';
 import { Spacing } from '../constants/design';
 import { useTheme } from '../context/ThemeContext';
+import { PRACTICES, PracticeSet } from '../constants/practices';
+import { Button } from '../components/Button';
+
 
 const sets = ['Warm-up socials', 'Main set coordination', 'Cool-down recap'];
 
 export default function GroupsScreen() {
   const { colors } = useTheme();
+  const currentPractice = PRACTICES[0];
 
   return (
     <ScreenContainer scrollable>
-      <View style={[styles.avatar, { borderColor: colors.border }]} />
-      <Heading style={styles.groupName}>Group Name</Heading>
-      <Paragraph style={styles.members}># members</Paragraph>
-      <Paragraph style={styles.description}>
-        group description
+      <View style={{flexDirection: 'row',
+                alignItems: 'flex-end', marginBottom: 10}}>
+        <Image
+          source={require('../assets/images/circle.png')}
+          resizeMode="contain"
+          style={{ width: 50, height: 50, marginRight: Spacing.screenPadding / 3 }}
+        />
+        <Heading style={styles.groupName}>Group Name</Heading>
+      </View>
+      <Paragraph style={styles.members}>90 members</Paragraph>
+      <Paragraph style={[styles.description]}>
+        We are a . We practice at<br/> <br/>Meets: <br/>MON 5:30 - 7:00 p.m. <br/>WEDS 5:15 - 6:45 p.m. <br/>SAT 9:00 - 10 a.m.
       </Paragraph>
 
-      <MediumText style={styles.upcomingLabel}>Upcoming Practices</MediumText>
+      <Heading style={styles.upcomingLabel}>Upcoming Practices</Heading>
       <Image
         source={require('../assets/images/weekview.png')}
         style={styles.weekView}
         resizeMode="contain"
       />
 
-      <View style={styles.setList}>
-        {sets.map((set) => (
-          <Frame2 key={set} style={styles.setItem}>
-            <Paragraph>{set}</Paragraph>
-          </Frame2>
-        ))}
-      </View>
+<View style={styles.setsContainer}>
+            {currentPractice.sets.map((set: PracticeSet) => (
+              <Frame1 key={set.name} style={styles.setItem}>
+                  <Subheading>{set.name}</Subheading>
+                  <Paragraph style={styles.practiceMeta}>{currentPractice.dateLabel}</Paragraph>
+                  <Paragraph style={styles.practiceMeta}>{currentPractice.people}</Paragraph>
+                  <MediumText>{set.description}</MediumText>
+                  <Button
+                    variant="small"
+                  >
+                    Join
+                  </Button>
+              </Frame1>
+            ))}
+          </View>
+
     </ScreenContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  avatar: {
-    width: 96,
-    height: 96,
-    borderRadius: 48,
-    borderWidth: 2,
-    marginBottom: Spacing.screenPadding / 2,
+  setsContainer: {
+    marginTop: Spacing.screenPadding / 8,
+    gap: Spacing.screenPadding / 2,
+  },
+  practiceMeta: {
+    marginBottom: Spacing.screenPadding / 6,
   },
   groupName: {
     marginBottom: Spacing.screenPadding / 4,
@@ -53,15 +73,15 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.screenPadding / 4,
   },
   description: {
-    marginBottom: Spacing.screenPadding,
+    marginBottom: Spacing.screenPadding / 4,
+    fontStyle: 'normal',
   },
   upcomingLabel: {
-    marginBottom: Spacing.screenPadding / 3,
+    marginBottom: 0,
   },
   weekView: {
     width: '100%',
     borderRadius: 12,
-    marginVertical: Spacing.screenPadding / 3,
   },
   setList: {
     width: '100%',
@@ -69,5 +89,6 @@ const styles = StyleSheet.create({
   },
   setItem: {
     width: '100%',
+    padding: Spacing.screenPadding / 2,
   },
 });

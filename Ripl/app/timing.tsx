@@ -61,12 +61,6 @@ export default function TimingScreen() {
     setSplits((prev) => prev.slice(0, -1));
   };
 
-  const handleEndLog = () => {
-    stopTimer();
-    setElapsedMs(0);
-    setSplits([]);
-    baselineRef.current = null;
-  };
 
   const mainActionLabel = isRunning ? 'Stop' : 'Start';
   const latestSplit = useMemo(() => (splits.length ? splits[splits.length - 1] : null), [splits]);

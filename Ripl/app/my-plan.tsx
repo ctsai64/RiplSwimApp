@@ -35,6 +35,11 @@ export default function MyPlanScreen() {
         />
 
         <TouchableOpacity style={styles.practiceCard} onPress={handleOpenPractice}>
+          <View style={{position: 'absolute', top: Spacing.screenPadding / 4, left: Spacing.screenPadding / 4, zIndex: 1}}>
+            <TouchableOpacity style={{padding: Spacing.screenPadding / 4}}>
+              <Paragraph style={{fontSize: 14}}>edit</Paragraph>
+            </TouchableOpacity>
+          </View>
           <View style={styles.setsContainer}>
             {currentPractice.sets.map((set: PracticeSet) => (
               <View style={{flexDirection: 'row',

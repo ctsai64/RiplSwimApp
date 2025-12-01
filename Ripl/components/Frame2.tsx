@@ -22,7 +22,9 @@ export const Frame2: React.FC<Frame2Props> = ({ children, style, ...props }) => 
       ]}
       {...props}
     >
-      {children}
+      <Text style={{ color: colors.white }}>
+        {children}
+      </Text>
     </View>
   );
 };

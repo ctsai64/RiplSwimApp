@@ -98,6 +98,7 @@ const styles = StyleSheet.create({
   },
   setText: {
     marginBottom: 4,
+    color: 'white',
   },
   setDescription: {
     opacity: 0.8,

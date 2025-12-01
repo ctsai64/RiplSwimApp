@@ -19,8 +19,8 @@ export const PRACTICES: Practice[] = [
     people: 'with Dom and 1 other',
     sets: [
       { name: 'Example Set 1', description: '2900 yd • 1hr 30 min' },
-      { name: 'Example Set 1', description: '2900 yd • 1hr 30 min' },
-      { name: 'Example Set 1', description: '2900 yd • 1hr 30 min' },
+      { name: 'Example Set 2', description: '2900 yd • 1hr 30 min' },
+      { name: 'Example Set 3', description: '2900 yd • 1hr 30 min' },
     ],
   },
   {

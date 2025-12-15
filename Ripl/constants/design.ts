@@ -60,6 +60,7 @@ export const TypographyScale = {
     fontWeight: '700' as const,
     lineHeight: 26.33,
     letterSpacing: 0,
+    marginBottom: 10,
   },
   subheading: {
     fontFamily: FontFamily.bold,
@@ -82,6 +83,7 @@ export const TypographyScale = {
     fontWeight: '500' as const,
     lineHeight: 13.05,
     letterSpacing: 0,
+    marginBottom: 5,
   },
 };
 

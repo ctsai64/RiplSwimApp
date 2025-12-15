@@ -1,19 +1,45 @@
-import React from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import React, { useState, useMemo } from 'react';
+import { Image, StyleSheet, View, TouchableOpacity } from 'react-native';
 import { ScreenContainer } from '../components/ScreenContainer';
 import { Frame1 } from '../components/Frame1';
 import { Heading, Subheading, MediumText, Paragraph } from '../components/Typography';
 import { Spacing } from '../constants/design';
 import { useTheme } from '../context/ThemeContext';
-import { PRACTICES, PracticeSet } from '../constants/practices';
 import { Button } from '../components/Button';
+import { useGlobalData } from '../context/GlobalDataContext';
+import { computeEstimatedDistance, computeEstimatedDuration, parseDateTime, getPracticesForUser } from '../utils/practiceHelpers';
+import { WeekView } from '../components/WeekView';
 
-
-const sets = ['Warm-up socials', 'Main set coordination', 'Cool-down recap'];
 
 export default function GroupsScreen() {
-  const { colors } = useTheme();
-  const currentPractice = PRACTICES[0];
+  const { practices, groups, selectedGroup: selectedGroupId } = useGlobalData();
+  const selectedGroup = selectedGroupId ? groups.find(g => g.id === selectedGroupId) || null : null;
+  const groupPractices = selectedGroup ? getPracticesForUser(selectedGroup.practiceIds, practices) : [];
+
+  const practiceDates = useMemo(
+    () =>
+      Array.from(
+        new Set(
+          groupPractices.map(p =>
+            new Date(p.dateTime).toISOString().slice(0, 10)
+          )
+        )
+      ),
+    [groupPractices]
+  );
+
+  const today = new Date();
+  const [selectedDate, setSelectedDate] = useState(() => {
+    const y = today.getFullYear();
+    const m = String(today.getMonth() + 1).padStart(2, '0');
+    const d = String(today.getDate()).padStart(2, '0');
+    return `${y}-${m}-${d}`;
+  });
+  
+
+  const practicesOnDate = groupPractices.filter(
+    p => new Date(p.dateTime).toISOString().slice(0, 10) === selectedDate
+  );
 
   return (
     <ScreenContainer scrollable>
@@ -22,38 +48,42 @@ export default function GroupsScreen() {
         <Image
           source={require('../assets/images/circle.png')}
           resizeMode="contain"
-          style={{ width: 50, height: 50, marginRight: Spacing.screenPadding / 3 }}
+          style={styles.profile}
         />
-        <Heading style={styles.groupName}>Group Name</Heading>
+        <Heading style={styles.groupName}>{selectedGroup?.name}</Heading>
       </View>
-      <Paragraph style={styles.members}>90 members</Paragraph>
+      <Paragraph style={styles.members}>{selectedGroup?.numberOfMembers} members</Paragraph>
       <Paragraph style={[styles.description]}>
-        We are a . We practice at{'\n\n'}Meets:{'\n'}MON 5:30 - 7:00 p.m.{'\n'}WEDS 5:15 - 6:45 p.m.{'\n'}SAT 9:00 - 10 a.m.
+        {selectedGroup?.description}
       </Paragraph>
 
       <Heading style={styles.upcomingLabel}>Upcoming Practices</Heading>
-      <Image
-        source={require('../assets/images/weekview.png')}
-        style={styles.weekView}
-        resizeMode="contain"
-      />
+      <WeekView
+          practiceDates={practiceDates}
+          selectedDate={selectedDate}
+          onSelectDate={setSelectedDate}
+        />
 
-<View style={styles.setsContainer}>
-            {currentPractice.sets.map((set: PracticeSet) => (
-              <Frame1 key={set.name} style={styles.setItem}>
-                  <Subheading>{set.name}</Subheading>
-                  <Paragraph style={styles.practiceMeta}>{currentPractice.dateLabel}</Paragraph>
-                  <Paragraph style={styles.practiceMeta}>{currentPractice.people}</Paragraph>
-                  <MediumText>{set.description}</MediumText>
-                  <Button
-                    variant="small"
-                  >
-                    Join
-                  </Button>
-              </Frame1>
-            ))}
-          </View>
-
+      {practicesOnDate.length === 0 ? (
+        <Paragraph style={{ marginVertical: 24, textAlign: 'center' }}>
+          No practices on this day.
+        </Paragraph>
+      ) : (
+        practicesOnDate.map((practice, i) => (
+          <TouchableOpacity style={styles.practiceCard} key={practice.id + i}>
+            <View style={{ marginVertical: 10 }}>
+              <Subheading>{practice.name}</Subheading>
+              <Paragraph>
+                {parseDateTime(practice)} • {computeEstimatedDistance(practice)} {practice.units} • {computeEstimatedDuration(practice)} min
+              </Paragraph>
+              <Button
+                variant="small"
+                onPress={() => {/* maybe navigate to detail or edit */}}
+              >View</Button>
+            </View>
+          </TouchableOpacity>
+        ))
+      )}
     </ScreenContainer>
   );
 }
@@ -79,6 +109,13 @@ const styles = StyleSheet.create({
   upcomingLabel: {
     marginBottom: 0,
   },
+  profile: {
+    width: 50,
+    height: 50,
+    marginRight: Spacing.screenPadding / 3,
+    borderRadius: 25,
+    overflow: 'hidden',
+  },
   weekView: {
     width: '100%',
     borderRadius: 12,
@@ -90,5 +127,10 @@ const styles = StyleSheet.create({
   setItem: {
     width: '100%',
     padding: Spacing.screenPadding / 2,
+  },
+  practiceCard: {
+    width: '100%',
+    backgroundColor: 'transparent',
+    marginBottom: Spacing.screenPadding / 2,
   },
 });

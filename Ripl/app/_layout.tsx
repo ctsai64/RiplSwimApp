@@ -8,8 +8,8 @@ import {
   Inter_700Bold,
 } from "@expo-google-fonts/inter";
 import { ThemeProvider, useTheme } from "../context/ThemeContext";
+import { GlobalDataProvider } from '../context/GlobalDataContext';
 
-// Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
 
 const ThemedStack = () => {
@@ -45,8 +45,10 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider>
-      <ThemedStack />
-    </ThemeProvider>
+    <GlobalDataProvider>
+      <ThemeProvider>
+        <ThemedStack />
+      </ThemeProvider>
+    </GlobalDataProvider>
   );
 }

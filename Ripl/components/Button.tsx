@@ -1,29 +1,56 @@
 import React from 'react';
-import { TouchableOpacity, TouchableOpacityProps, StyleSheet, Text } from 'react-native';
+import {
+  TouchableOpacity,
+  TouchableOpacityProps,
+  StyleSheet,
+  Text,
+  TextStyle,
+} from 'react-native';
 import { Spacing, TypographyScale, FontFamily } from '../constants/design';
 import { useTheme } from '../context/ThemeContext';
 
 interface ButtonProps extends TouchableOpacityProps {
   variant?: 'horizontal' | 'small' | 'text';
   children: React.ReactNode;
+  textStyle?: TextStyle;
 }
 
 export const Button: React.FC<ButtonProps> = ({
   variant = 'horizontal',
   children,
   style,
+  textStyle,
   ...props
 }) => {
   const { colors } = useTheme();
-  const buttonStyle = variant === 'horizontal' ? styles.horizontalButton : variant === 'small' ? styles.smallButton : styles.textButton;
-  const textStyle = variant === 'horizontal' ? styles.horizontalText : variant === 'small' ? styles.smallText : styles.textText;
+  const buttonStyle =
+    variant === 'horizontal'
+      ? styles.horizontalButton
+      : variant === 'small'
+      ? styles.smallButton
+      : styles.textButton;
+  const variantTextStyle =
+    variant === 'horizontal'
+      ? styles.horizontalText
+      : variant === 'small'
+      ? styles.smallText
+      : styles.textText;
 
   return (
     <TouchableOpacity
       style={[styles.baseButton, variant !== 'text' && { backgroundColor: colors.frameBackground }, buttonStyle, style]}
       {...props}
     >
-      <Text style={[styles.baseText, { color: variant === 'text' ? '#d9d9d9' : colors.white }, textStyle]}>{String(children).toUpperCase()}</Text>
+      <Text
+        style={[
+          styles.baseText,
+          { color: variant === 'text' ? colors.text : colors.white },
+          variantTextStyle,
+          textStyle,
+        ]}
+      >
+        {String(children).toUpperCase()}
+      </Text>
     </TouchableOpacity>
   );
 };
@@ -39,15 +66,23 @@ const styles = StyleSheet.create({
   },
   horizontalButton: {
     width: '100%',
+    borderRadius: Spacing.borderRadius.button,
+    marginTop: Spacing.screenPadding / 2,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   smallButton: {
     width: 'auto',
     alignSelf: 'flex-end',
+    marginRight: Spacing.screenPadding / 2,
+    marginBottom: Spacing.screenPadding / 2,
   },
   textButton: {
     width: 'auto',
     alignSelf: 'flex-end',
     backgroundColor: 'transparent',
+    ...TypographyScale.mediumText,
   },
   baseText: {
     fontWeight: '700',

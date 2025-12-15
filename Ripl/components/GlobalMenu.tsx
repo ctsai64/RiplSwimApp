@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, Pressable, StyleSheet, Switch, TouchableOpacity, View } from 'react-native';
 import { useRouter } from 'expo-router';
-import { Spacing } from '../constants/design';
+import { Spacing, LightColors } from '../constants/design';
 import { useTheme } from '../context/ThemeContext';
 import { MediumText, Paragraph } from './Typography';
 
@@ -53,8 +53,8 @@ export const GlobalMenu: React.FC = () => {
               <Switch
                 value={isDarkMode}
                 onValueChange={toggleDarkMode}
-                trackColor={{ false: '#94A3B8', true: '#22C55E' }}
-                thumbColor={isDarkMode ? '#22C55E' : '#E2E8F0'}
+                trackColor={{ false: LightColors.border, true: LightColors.highlight }}
+                thumbColor={isDarkMode ? LightColors.highlight : LightColors.white}
               />
             </View>
           </View>

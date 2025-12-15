@@ -5,4 +5,5 @@ export * from './Frame2';
 export * from './Button';
 export * from './ScreenContainer';
 export * from './ProgressBar';
+export * from './TimelineItem';
 

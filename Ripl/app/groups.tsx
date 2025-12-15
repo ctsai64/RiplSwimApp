@@ -74,7 +74,7 @@ export default function GroupsScreen() {
             <View style={{ marginVertical: 10 }}>
               <Subheading>{practice.name}</Subheading>
               <Paragraph>
-                {parseDateTime(practice)} • {computeEstimatedDistance(practice)} {practice.units} • {computeEstimatedDuration(practice)} min
+                {parseDateTime(practice)} • {computeEstimatedDistance(practice)} {practice.units} • {computeEstimatedDuration(practice)}
               </Paragraph>
               <Button
                 variant="small"

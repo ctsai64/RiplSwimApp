@@ -3,10 +3,10 @@ import { Practice } from '../interfaces';
 export const practices: Practice[] = [
   {
     id: 'p1',
-    dateTime: '2025-12-12T06:00:00Z',
-    name: 'Fly Friday',
+    dateTime: '2025-12-16T06:00:00Z',
+    name: 'Workout 1',
     type: 'Endurance',
-    attendees: ['aaron, cymberly'],
+    attendees: ['aaron, dom'],
     location: 'Sheer Pool',
     units: 'meters',
     sets: [
@@ -42,13 +42,67 @@ export const practices: Practice[] = [
   },
   {
     id: 'p2',
-    dateTime: '2023-01-02T18:00:00Z',
-    name: 'Evening Sprints',
+    dateTime: '2025-12-16T18:00:00Z',
+    name: 'Workout 2',
     type: 'Sprints',
     attendees: ['aaron', 'dom'],
     location: 'Sheer Pool',
     units: 'yards',
     sets: [
+      {
+        name: 'Sprint Set',
+        things: [
+          { id: 3, iterations: 8, distance: 50, time: 50, description: 'free sprint' },
+          { id: 3, iterations: 8, distance: 50, time: 50, description: 'free sprint' },
+          { id: 3, iterations: 8, distance: 50, time: 50, description: 'free sprint' }
+        ]
+      },
+      {
+        name: 'Sprint Set',
+        things: [
+          { id: 3, iterations: 8, distance: 50, time: 50, description: 'free sprint' },
+          { id: 3, iterations: 8, distance: 50, time: 50, description: 'free sprint' },
+          { id: 3, iterations: 8, distance: 50, time: 50, description: 'free sprint' }
+        ]
+      },
+      {
+        name: 'Sprint Set',
+        things: [
+          { id: 3, iterations: 8, distance: 50, time: 50, description: 'free sprint' },
+          { id: 3, iterations: 8, distance: 50, time: 50, description: 'free sprint' },
+          { id: 3, iterations: 8, distance: 50, time: 50, description: 'free sprint' }
+        ]
+      }
+    ],
+    splits: [],
+    physicalRating: 9,
+    emotionalRating: 8
+  },
+  {
+    id: 'p3',
+    dateTime: '2025-12-18T18:00:00Z',
+    name: 'Workout 3',
+    type: 'Sprints',
+    attendees: ['aaron', 'dom'],
+    location: 'Sheer Pool',
+    units: 'yards',
+    sets: [
+      {
+        name: 'Sprint Set',
+        things: [
+          { id: 3, iterations: 8, distance: 50, time: 50, description: 'free sprint' },
+          { id: 3, iterations: 8, distance: 50, time: 50, description: 'free sprint' },
+          { id: 3, iterations: 8, distance: 50, time: 50, description: 'free sprint' }
+        ]
+      },
+      {
+        name: 'Sprint Set',
+        things: [
+          { id: 3, iterations: 8, distance: 50, time: 50, description: 'free sprint' },
+          { id: 3, iterations: 8, distance: 50, time: 50, description: 'free sprint' },
+          { id: 3, iterations: 8, distance: 50, time: 50, description: 'free sprint' }
+        ]
+      },
       {
         name: 'Sprint Set',
         things: [

@@ -1,5 +1,7 @@
 import React, { useMemo, useState } from 'react'
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import { LightColors } from '../constants/design'
+import { useTheme } from '../context/ThemeContext'
 
 function todayLocal() {
   const t = new Date()
@@ -29,6 +31,7 @@ export function WeekView({
   onSelectDate: (d: string) => void
 }) {
   const anchor = todayLocal()
+  const { colors } = useTheme()
   const [weekOffset, setWeekOffset] = useState(0)
 
   const weekStart = useMemo(() => {
@@ -46,13 +49,13 @@ export function WeekView({
     <View style={styles.wrapper}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => setWeekOffset(w => w - 1)}>
-          <Text style={styles.arrow}>‹</Text>
+          <Text style={[styles.arrow, { color: colors.highlight }]}>‹</Text>
         </TouchableOpacity>
 
-        <Text style={styles.month}>{monthLabel.toUpperCase()}</Text>
+        <Text style={[styles.month, { color: colors.text }]}>{monthLabel.toUpperCase()}</Text>
 
         <TouchableOpacity onPress={() => setWeekOffset(w => w + 1)}>
-          <Text style={styles.arrow}>›</Text>
+          <Text style={[styles.arrow, { color: colors.highlight }]}>›</Text>
         </TouchableOpacity>
       </View>
 
@@ -85,7 +88,8 @@ export function WeekView({
                 <Text
                   style={[
                     styles.date,
-                    isSelected && styles.selectedText,
+                    { color: colors.text },
+                    isSelected && { color: colors.white },
                   ]}
                 >
                   {d.getDate()}
@@ -101,7 +105,7 @@ export function WeekView({
 
 const styles = StyleSheet.create({
   wrapper: {
-    marginVertical: 12,
+    marginVertical: 24,
   },
   header: {
     flexDirection: 'row',
@@ -112,12 +116,10 @@ const styles = StyleSheet.create({
   arrow: {
     fontSize: 24,
     fontWeight: '600',
-    color: '#6AB6FC',
   },
   month: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#d9d9d9',
   },
   weekRow: {
     flexDirection: 'row',
@@ -137,20 +139,16 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#F8F9FA',
+    backgroundColor: LightColors.backgroundSecondary,
   },
   practice: {
-    backgroundColor: '#E3F1FF',
+    backgroundColor: LightColors.secondaryHighlight,
   },
   selected: {
-    backgroundColor: '#6AB6FC',
+    backgroundColor: LightColors.highlight,
   },
   date: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#d9d9d9',
-  },
-  selectedText: {
-    color: '#fff',
   },
 })

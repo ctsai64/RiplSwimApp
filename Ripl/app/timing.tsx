@@ -5,6 +5,7 @@ import { Heading, MediumText, Paragraph, Title } from '../components/Typography'
 import { Button } from '../components/Button';
 import { Frame2 } from '../components/Frame2';
 import { Spacing } from '../constants/design';
+import { useTheme } from '../context/ThemeContext';
 
 const formatTime = (ms: number) => {
   const minutes = Math.floor(ms / 60000);
@@ -19,6 +20,7 @@ const formatTime = (ms: number) => {
 };
 
 export default function TimingScreen() {
+  const { colors } = useTheme();
   const [isRunning, setIsRunning] = useState(false);
   const [elapsedMs, setElapsedMs] = useState(0);
   const [splits, setSplits] = useState<number[]>([]);
@@ -79,7 +81,7 @@ export default function TimingScreen() {
               <Heading style={styles.splitMeta}>50         {formatTime(latestSplit)}</Heading>
             ) : <Heading style={styles.splitMeta}>50</Heading>
             }
-          <Title style={styles.time}>{formatTime(elapsedMs)}</Title>
+          <Title style={[styles.time, { color: colors.text }]}>{formatTime(elapsedMs)}</Title>
 
           <View style={styles.buttonRow}>
             <Button variant="horizontal" style={styles.buttonGrow} onPress={() => (isRunning ? stopTimer() : startTimer())}>
@@ -109,7 +111,6 @@ const styles = StyleSheet.create({
     fontSize: 60,
     lineHeight: 60,
     fontWeight: '700',
-    color: '#828282',
   },
   splitMeta: {
     fontWeight: '100',

@@ -1,19 +1,16 @@
 import React, { useState, useMemo } from 'react';
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
-import { ScreenContainer } from '../components/ScreenContainer';
+import { ScreenContainer, TimelineItem } from '../components';
 import { Heading, Paragraph, Subheading } from '../components/Typography';
 import { Button } from '../components/Button';
-import { Spacing } from '../constants/design';
+import { Frame1 } from '../components/Frame1';
+import { Spacing, LightColors, TypographyScale, Border } from '../constants/design';
 import { useGlobalData } from '../context/GlobalDataContext';
-import {
-  computeEstimatedDistance,
-  computeEstimatedDuration,
-  parseDateTime,
-  getPracticesForUser,
-} from '../utils/practiceHelpers';
-
+import { computeEstimatedDistance, computeEstimatedDuration, parseDateTime, getPracticesForUser, formatPracticeMembers} from '../utils/practiceHelpers';
 import { WeekView } from '../components/WeekView';
+import { Practice } from '../constants/interfaces';
+
 
 export default function MyPlanScreen() {
   const router = useRouter();
@@ -42,7 +39,7 @@ export default function MyPlanScreen() {
     const d = String(today.getDate()).padStart(2, '0');
     return `${y}-${m}-${d}`;
   });
-  
+
 
   const practicesOnDate = userPractices.filter(
     p => new Date(p.dateTime).toISOString().slice(0, 10) === selectedDate
@@ -64,33 +61,33 @@ export default function MyPlanScreen() {
             No practices on this day.
           </Paragraph>
         ) : (
-          practicesOnDate.map((practice, i) => (
-            <TouchableOpacity
-              style={styles.practiceCard}
-              key={practice.dateTime + i}
-            >
-              <View style={{ marginVertical: 10 }}>
-                <Subheading>{practice.name}</Subheading>
-                <Paragraph>
-                  {parseDateTime(practice)} •{' '}
-                  {computeEstimatedDistance(practice)} {practice.units} •{' '}
-                  {computeEstimatedDuration(practice)} min
-                </Paragraph>
-
-                <Button variant="small">View</Button>
-              </View>
-            </TouchableOpacity>
-          ))
-        )}
+          practicesOnDate.map((practice: Practice, index: number) => (
+              <TimelineItem
+                  key={practice.name} 
+                  isLast={index === practicesOnDate.length - 1}
+                  circleColor={LightColors.frameBackground}
+                  lineColor={LightColors.frameBackground}
+                >
+                <Frame1>
+                  <Heading>{practice.name}</Heading>
+                  <Paragraph>{parseDateTime(practice)}</Paragraph>
+                  <Paragraph>{formatPracticeMembers(practice)}</Paragraph>
+                  <Paragraph>
+                    {computeEstimatedDistance(practice)} {practice.units} • {computeEstimatedDuration(practice)}
+                  </Paragraph>
+                </Frame1>
+              </TimelineItem>
+        ))
+      )}
       </ScreenContainer>
 
       <View style={styles.fabHost} pointerEvents="box-none">
         <Button
           variant="horizontal"
-          style={styles.fab}
+          style={[styles.fab, styles.addButton]}
           onPress={() => router.push('/plan-practice')}
         >
-          Add Workout+
+          ADD WORKOUT +
         </Button>
       </View>
     </View>
@@ -103,10 +100,7 @@ const styles = StyleSheet.create({
   },
   screenContent: {
     paddingBottom: Spacing.screenPadding * 4,
-  },
-  practiceCard: {
-    width: '80%',
-    backgroundColor: 'transparent',
+    paddingHorizontal: Spacing.screenPadding,
   },
   fabHost: {
     ...StyleSheet.absoluteFillObject,
@@ -116,5 +110,17 @@ const styles = StyleSheet.create({
   },
   fab: {
     width: '75%',
+  },
+  addButton: {
+    backgroundColor: LightColors.frameBackground,
+    borderRadius: Spacing.borderRadius.button,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  addButtonText: {
+    color: LightColors.text,
+    ...TypographyScale.mediumText,
+    fontWeight: '700',
   },
 });

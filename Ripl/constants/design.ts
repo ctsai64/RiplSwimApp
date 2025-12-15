@@ -9,21 +9,29 @@ export type ThemeColors = {
   menuBackground: string;
   menuOverlay: string;
   highlight: string;
+  secondaryHighlight: string;
 };
 
 const highlight = '#6AB6FC';
+const secondaryHighlight = '#E3F1FF';
+const lightText = '#d9d9d9';
+const lightBackground = '#FFFFFF';
+const lightBackgroundSecondary = '#F8F9FA';
+const lightBorder = '#E5E7EB';
+const lightFrameBackground = '#d9d9d9';
 
 export const LightColors: ThemeColors = {
-  background: '#FFFFFF',
-  backgroundSecondary: '#F8F9FA',
-  text: '#d9d9d9',
+  background: lightBackground,
+  backgroundSecondary: lightBackgroundSecondary,
+  text: lightText,
   white: '#FFFFFF',
-  border: '#E5E7EB',
-  frameBackground: '#d9d9d9',
-  frame2Background: '#d9d9d9',
-  menuBackground: '#FFFFFF',
+  border: lightBorder,
+  frameBackground: lightFrameBackground,
+  frame2Background: lightFrameBackground,
+  menuBackground: lightBackground,
   menuOverlay: 'rgba(0, 0, 0, 0.5)',
   highlight,
+  secondaryHighlight,
 };
 
 export const DarkColors: ThemeColors = {
@@ -37,6 +45,7 @@ export const DarkColors: ThemeColors = {
   menuBackground: '#0A0F19',
   menuOverlay: 'rgba(0, 0, 0, 0.85)',
   highlight,
+  secondaryHighlight,
 };
 
 export const FontFamily = {
@@ -46,6 +55,22 @@ export const FontFamily = {
   thin: 'Inter_100Thin',
 };
 
+export const Spacing = {
+  screenPadding: 30,
+  buttonPadding: { vertical: 8, horizontal: 22 },
+  borderRadius: {
+    frame1: 23,
+    frame2: 0,
+    button: 8,
+  },
+};
+
+export const Border = {
+  frame1: {
+    width: 1,
+  },
+};
+
 export const TypographyScale = {
   title: {
     fontFamily: FontFamily.bold,
@@ -53,6 +78,7 @@ export const TypographyScale = {
     fontWeight: '700' as const,
     lineHeight: 45,
     letterSpacing: 0,
+    marginBottom: Spacing.screenPadding,
   },
   heading: {
     fontFamily: FontFamily.bold,
@@ -86,20 +112,3 @@ export const TypographyScale = {
     marginBottom: 5,
   },
 };
-
-export const Spacing = {
-  screenPadding: 30,
-  buttonPadding: { vertical: 8, horizontal: 22 },
-  borderRadius: {
-    frame1: 23,
-    frame2: 0,
-    button: 8,
-  },
-};
-
-export const Border = {
-  frame1: {
-    width: 1,
-  },
-};
-

@@ -45,7 +45,7 @@ export default function PlanPracticeDepthScreen() {
                 >
                   {isActive && <View style={[styles.radioInner, { backgroundColor: colors.frameBackground }]} />}
                 </View>
-                <MediumText style={[styles.optionLabel, { color: colors.text }]}>{option}</MediumText>
+                <MediumText style={styles.optionLabel}>{option}</MediumText>
               </TouchableOpacity>
             );
           })}

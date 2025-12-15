@@ -5,7 +5,7 @@ import { ScreenContainer } from '../components/ScreenContainer';
 import { Heading, MediumText, Paragraph } from '../components/Typography';
 import { Frame2 } from '../components/Frame2';
 import { Button } from '../components/Button';
-import { Spacing } from '../constants/design';
+import { LightColors, Spacing } from '../constants/design';
 
 export default function EditPracticeScreen() {
   const router = useRouter();
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
   },
   setText: {
     marginBottom: 4,
-    color: 'white',
+    color: LightColors.white,
   },
   setDescription: {
     opacity: 0.8,

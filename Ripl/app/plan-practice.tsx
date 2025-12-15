@@ -60,7 +60,7 @@ export default function PlanPracticeSetTimeScreen() {
                 disabled={!day}
                 onPress={() => setSelectedDate(day)}
               >
-                <Paragraph style={{ color: colors.text }}>
+                <Paragraph>
                   {day ?? ''}
                 </Paragraph>
               </TouchableOpacity>

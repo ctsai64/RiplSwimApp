@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Spacing } from '../constants/design';
+import { Spacing, LightColors } from '../constants/design';
 
 interface ProgressBarProps {
   currentStep: 1 | 2 | 3;
@@ -35,10 +35,10 @@ const styles = StyleSheet.create({
     height: 12,
     borderRadius: 6,
     borderWidth: 2,
-    borderColor: '#d9d9d9',
+    borderColor: LightColors.text,
     backgroundColor: 'transparent',
   },
   filledCircle: {
-    backgroundColor: '#d9d9d9',
+    backgroundColor: LightColors.text,
   },
 });

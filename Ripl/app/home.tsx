@@ -19,7 +19,7 @@ const navItems = [
 
 export default function HomeScreen() {
   const { colors, typography, spacing, isDark, toggleTheme } = useTheme();
-  const { currentUser, practices } = useGlobalData();
+  const { currentUser, practices, selectPractice } = useGlobalData();
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(formatYMD(new Date()));
@@ -134,7 +134,7 @@ export default function HomeScreen() {
                 isLast={index === selectedPractices.length - 1}
                 isCompleted={false}
               >
-                <Frame1>
+                <Frame1 onPress={() => { selectPractice(practice.id); router.push('/edit-practice'); }}>
                   <Text style={[typography.heading, { color: colors.text }]}>
                     {practice.name}
                   </Text>

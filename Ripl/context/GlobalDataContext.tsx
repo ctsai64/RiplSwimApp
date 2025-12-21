@@ -14,6 +14,8 @@ interface GlobalDataContextType {
   setCurrentUser: (user: User) => void;
   selectedGroup: string | null;
   setSelectedGroup: (groupId: string | null) => void;
+  selectedPracticeId: string | null;
+  selectPractice: (practiceId: string) => void;
   updateUsers: (users: User[]) => void;
   updateGroups: (groups: Group[]) => void;
   addSplitToUser: (username: string, split: Split) => void;
@@ -33,6 +35,7 @@ export const GlobalDataProvider: React.FC<{children: React.ReactNode}> = ({ chil
     initialUsers.find(u => u.username === currentUserUsername) || null
   );
   const [selectedGroup, setSelectedGroup] = useState<string | null>(initialSelectedGroup);
+  const [selectedPracticeId, setSelectedPracticeId] = useState<string | null>(null);
 
   const addSplitToUser = useCallback((username: string, split: Split) => {
     setUsers(prev => prev.map(user => 
@@ -62,6 +65,10 @@ export const GlobalDataProvider: React.FC<{children: React.ReactNode}> = ({ chil
     ));
   }, []);
 
+  const selectPractice = useCallback((practiceId: string) => {
+    setSelectedPracticeId(practiceId);
+  }, []);
+
   return (
     <GlobalDataContext.Provider value={{
       users,
@@ -73,6 +80,8 @@ export const GlobalDataProvider: React.FC<{children: React.ReactNode}> = ({ chil
       setCurrentUser,
       selectedGroup,
       setSelectedGroup,
+      selectedPracticeId,
+      selectPractice,
       updateUsers: setUsers,
       updateGroups: setGroups,
       addSplitToUser,

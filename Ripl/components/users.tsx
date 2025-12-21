@@ -7,7 +7,7 @@ interface UserGroupProps {
   imageSource?: any;
 }
 
-export const UserGroup: React.FC<UserGroupProps> = ({ usersText, imageSource }) => {
+export const Users: React.FC<UserGroupProps> = ({ usersText, imageSource }) => {
   const { colors, typography } = useTheme();
 
   return (

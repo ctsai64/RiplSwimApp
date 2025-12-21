@@ -9,7 +9,7 @@ export default function ProfileScreen() {
     <View style={[styles.container, { backgroundColor: colors.background, padding: spacing.screenPadding }]}> 
       <Text style={[typography.heading, { color: colors.text }]}>Profile</Text>
       <Text style={[typography.paragraph, { color: colors.textSecondary, marginTop: spacing.screenPadding / 2 }]}> 
-        Review your progress and update your details. 
+        afsdfsdfdgfd 
       </Text>
     </View>
   );

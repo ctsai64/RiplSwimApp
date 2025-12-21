@@ -3,14 +3,16 @@ import { View, Text, StyleSheet, Pressable, Switch, ScrollView } from 'react-nat
 import { useRouter } from 'expo-router';
 import { useTheme } from '../context/ThemeContext';
 import { useGlobalData } from '../context/GlobalDataContext';
-import { WeekView } from '@/components/weekview';
-import { Frame1 } from '@/components/frame';
-import { TimelineItem } from '@/components/timeline';
+import { WeekView } from '../components/weekview';
+import { Frame1 } from '../components/frame';
+import { Tag } from '../components/tag';
+import { Users } from '../components/users';
+import { TimelineItem } from '../components/timeline';
 import { displayUsername } from '../utils/userHelpers';
-import { getPracticesForUser, getPracticeDates, computeEstimatedDistance, computeEstimatedDuration, parseDateTime, formatYMD } from '../utils/practiceHelpers';
+import { getPracticesForUser, getPracticeDates, computeEstimatedDistance, computeEstimatedDuration, formatPracticeTime, formatYMD, formatPracticeMembers } from '../utils/practiceHelpers';
 
 const navItems = [
-  { label: 'Friends', route: '/friends' },
+  { label: 'Groups', route: '/groups' },
   { label: 'Timer', route: '/timer' },
   { label: 'Profile', route: '/profile' },
 ];
@@ -50,7 +52,7 @@ export default function HomeScreen() {
   );
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.background }]}> 
+    <View style={[styles.container, { backgroundColor: colors.background, paddingHorizontal: spacing.screenPadding,}]}> 
       <View style={{ paddingHorizontal: spacing.screenPadding, paddingTop: spacing.screenPadding, paddingBottom: spacing.screenPadding / 2 }}> 
         <Pressable
           onPress={() => setMenuOpen((prev) => !prev)}
@@ -87,23 +89,41 @@ export default function HomeScreen() {
           >
             <Text style={[typography.paragraph, { color: colors.text }]}>Design Samples</Text>
           </Pressable>
+
+          <Pressable
+            onPress={() => {
+              setMenuOpen(false);
+              router.push('/my-plan');
+            }}
+            style={[styles.menuRow, { padding: spacing.buttonPadding.vertical * 2 }]}
+          >
+            <Text style={[typography.paragraph, { color: colors.text }]}>My Plan</Text>
+          </Pressable>
+
+          <Pressable
+            onPress={() => {
+              setMenuOpen(false);
+              router.push('/plan-practice');
+            }}
+            style={[styles.menuRow, { padding: spacing.buttonPadding.vertical * 2 }]}
+          >
+            <Text style={[typography.paragraph, { color: colors.text }]}>Plan Practice</Text>
+          </Pressable>
         </View>
       )}
-
-      <ScrollView style={[styles.content, { paddingHorizontal: spacing.screenPadding }]}> 
         <Text style={[typography.paragraph, { color: colors.textSecondary }]}>
           Welcome, {currentUser ? displayUsername(currentUser) : 'Guest'}
         </Text>
         <Text style={[typography.title, { color: colors.text }]}>Let&apos;s make a splash.</Text>
-        
         <WeekView
           practiceDates={practiceDates}
           selectedDate={selectedDate}
           onSelectDate={setSelectedDate}
         />
-
+        <Text style={[typography.subheading, { color: colors.text }]}>Workouts</Text>
+          <ScrollView showsVerticalScrollIndicator={false}> 
         {selectedPractices.length > 0 && (
-          <View style={{ marginTop: spacing.screenPadding }}>
+          <View style={{ marginTop: spacing.screenPadding / 5, paddingRight: spacing.screenPadding/2 }}>
             {selectedPractices.map((practice, index) => (
               <TimelineItem 
                 key={practice.id} 
@@ -114,12 +134,15 @@ export default function HomeScreen() {
                   <Text style={[typography.heading, { color: colors.text }]}>
                     {practice.name}
                   </Text>
-                  <Text style={[typography.subheading, { color: colors.textSecondary }]}>
-                    {parseDateTime(practice)}
-                  </Text>
                   <Text style={[typography.paragraph, { color: colors.textSecondary }]}>
                     {computeEstimatedDistance(practice)} {practice.units} • {computeEstimatedDuration(practice)}
                   </Text>
+                  <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: spacing.buttonPadding.horizontal }}>
+                    {practice.type.map((type, idx) => (
+                      <Tag key={idx} label={type} />
+                    ))}
+                  </View>
+                  <Users key={practice.id} usersText={formatPracticeMembers(practice)} />
                 </Frame1>
               </TimelineItem>
             ))}
@@ -162,6 +185,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
   },
   menu: {
+    position: 'absolute',
     right: 16,
     zIndex: 10,
     borderWidth: 1,
@@ -174,9 +198,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-  },
-  content: {
-    flex: 1,
   },
   bottomNav: {
     flexDirection: 'row',

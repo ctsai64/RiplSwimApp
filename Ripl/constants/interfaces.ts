@@ -14,7 +14,7 @@ export interface Practice {
   id: string;
   dateTime: string; // ISO date string
   name: string;
-  type: string;
+  type: string[];
   attendees: string[]; // Username list
   location: string;
   units: 'yards' | 'meters' | string;

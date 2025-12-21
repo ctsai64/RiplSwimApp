@@ -31,7 +31,7 @@ export const Tag: React.FC<TagProps> = ({ label }) => {
 
 const styles = StyleSheet.create({
   tag: {
-    marginRight: 8,
+    marginRight: 2,
     marginVertical: 8,
     alignSelf: 'flex-start',
   },

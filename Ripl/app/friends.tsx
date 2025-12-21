@@ -9,7 +9,7 @@ export default function GroupsScreen() {
     <View style={[styles.container, { backgroundColor: colors.background, padding: spacing.screenPadding }]}> 
       <Text style={[typography.heading, { color: colors.text }]}>Groups</Text>
       <Text style={[typography.paragraph, { color: colors.textSecondary, marginTop: spacing.screenPadding / 2 }]}> 
-        Manage your swim groups and see who is training with you. 
+        sdfsdfsdfwsdfdfsg
       </Text>
     </View>
   );

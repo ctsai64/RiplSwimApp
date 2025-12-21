@@ -55,6 +55,19 @@ export function parseDateTime(practice: Practice): string {
   });
 }
 
+export function formatPracticeTime(practice: Practice): string {
+  if (!practice.dateTime) return '';
+  const date = new Date(practice.dateTime);
+  
+  if (isNaN(date.getTime())) return '';
+
+  return date.toLocaleString(undefined, {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  });
+}
+
 export function getPracticesForUser(practiceIds: string[], allPractices: Practice[]): Practice[] {
   if (!Array.isArray(practiceIds)) return [];
   return practiceIds

@@ -5,7 +5,7 @@ export const practices: Practice[] = [
     id: 'p1',
     dateTime: '2025-12-19T06:00:00Z',
     name: 'Fly Day Friday',
-    type: 'Endurance',
+    type: ['Sprint', 'Fly'],
     attendees: ['aaron, dom'],
     location: 'Sheer Pool',
     units: 'meters',
@@ -13,9 +13,9 @@ export const practices: Practice[] = [
       {
         name: 'Warmup',
         things: [
-          { id: 1, iterations: 1, distance: 500, time: 0, description: 'warmup' },
+          { id: 1, iterations: 1, distance: 500, time: 600, description: 'warmup' },
           { id: 2, iterations: 8, distance: 50, time: 60, description: 'every third fl' },
-          { id: 3, iterations: 1, distance: 100, time: 129, description: 'ez' },
+          { id: 3, iterations: 1, distance: 100, time: 120, description: 'ez' },
         ]
       },
       {
@@ -32,7 +32,7 @@ export const practices: Practice[] = [
         name: 'Ending',
         things: [
           { id: 9, iterations: 4, distance: 50, time: 60, description: 'ez, build, sprint, sprint harder' },
-          { id: 9, iterations: 1, distance: 200, time: 0, description: 'cool down' },
+          { id: 9, iterations: 1, distance: 200, time: 600, description: 'cool down' },
         ]
       }
     ],
@@ -44,7 +44,7 @@ export const practices: Practice[] = [
     id: 'p2',
     dateTime: '2025-12-14T18:00:00Z',
     name: 'Sprint Sunday',
-    type: 'Sprints',
+    type: ['Sprints'],
     attendees: ['aaron', 'dom'],
     location: 'Sheer Pool',
     units: 'yards',
@@ -80,9 +80,9 @@ export const practices: Practice[] = [
   },
   {
     id: 'p3',
-    dateTime: '2025-12-18T18:00:00Z',
-    name: 'Workout 3',
-    type: 'Sprints',
+    dateTime: '2025-12-19T18:00:00Z',
+    name: 'Sprinty Sprint Sprint',
+    type: ['Sprints'],
     attendees: ['aaron', 'dom'],
     location: 'Sheer Pool',
     units: 'yards',

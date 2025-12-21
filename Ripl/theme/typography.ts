@@ -10,7 +10,7 @@ export const TypographyScale = {
   },
   heading: {
     fontFamily: FontFamily.semiBold,
-    fontSize: 32,
+    fontSize: 20,
     letterSpacing: -1,
     //marginBottom: Spacing.screenPadding / 2,
   },

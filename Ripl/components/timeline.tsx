@@ -38,7 +38,7 @@ export const TimelineItem: React.FC<TimelineItemProps> = ({
               styles.timelineLine, 
               { 
                 backgroundColor: colors.muted,
-                top: (spacing.cardPadding *2) + CIRCLE_SIZE*1.5,
+                top: (spacing.cardPadding * 2) + CIRCLE_SIZE*1.5,
               }
             ]} 
           />

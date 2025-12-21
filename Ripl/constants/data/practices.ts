@@ -3,7 +3,7 @@ import { Practice } from '../interfaces';
 export const practices: Practice[] = [
   {
     id: 'p1',
-    dateTime: '2025-12-19T06:00:00Z',
+    dateTime: '2025-12-26T06:00:00Z',
     name: 'Fly Day Friday',
     type: ['Sprint', 'Fly'],
     attendees: ['aaron, dom'],
@@ -42,7 +42,7 @@ export const practices: Practice[] = [
   },
   {
     id: 'p2',
-    dateTime: '2025-12-14T18:00:00Z',
+    dateTime: '2025-12-26T06:00:00Z',
     name: 'Sprint Sunday',
     type: ['Sprint'],
     attendees: ['aaron', 'dom'],
@@ -80,7 +80,7 @@ export const practices: Practice[] = [
   },
   {
     id: 'p3',
-    dateTime: '2025-12-19T18:00:00Z',
+    dateTime: '2025-12-23T18:00:00Z',
     name: 'Sprinty Sprint Sprint',
     type: ['Sprints'],
     attendees: ['aaron', 'dom'],

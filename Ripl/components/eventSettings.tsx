@@ -12,6 +12,7 @@ export interface HeatConfig {
 
 export interface TimingConfig {
   distance: number;
+  splitDistance: number;
   units: 'yards' | 'meters';
   stroke: string;
   rounds: number;
@@ -30,6 +31,7 @@ export const EventSettingsSheet = ({ isVisible, onClose, onStartTiming }: EventS
   const { users } = useGlobalData();
   
   const [distance, setDistance] = useState('100');
+  const [splitDistance, setSplitDistance] = useState('50');
   const [units, setUnits] = useState<'Y' | 'M'>('Y');
   const [stroke, setStroke] = useState('FLY');
   const [customStroke, setCustomStroke] = useState('');
@@ -62,9 +64,11 @@ export const EventSettingsSheet = ({ isVisible, onClose, onStartTiming }: EventS
 
   const handleGoToTiming = () => {
     const parsedDistance = parseInt(distance, 10) || 0;
+    const parsedSplitDistance = parseInt(splitDistance, 10) || 0;
     const normalizedStroke = stroke === 'OTHER' ? (customStroke || 'Custom') : stroke;
     onStartTiming({
       distance: parsedDistance,
+      splitDistance: parsedSplitDistance,
       units: units === 'Y' ? 'yards' : 'meters',
       stroke: normalizedStroke,
       rounds: 1,
@@ -82,11 +86,25 @@ export const EventSettingsSheet = ({ isVisible, onClose, onStartTiming }: EventS
           <Text style={[typography.heading, { fontSize: 22, marginBottom: 20 }]}>Event Settings</Text>
 
           <View style={[styles.settingRow, { borderBottomColor: colors.border }]}>
-            <Text style={[typography.tag, { color: colors.textSecondary }]}>'SPLIT' distance</Text>
+            <Text style={[typography.tag, { color: colors.textSecondary }]}>Distance</Text>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <TextInput
                 value={distance}
                 onChangeText={setDistance}
+                keyboardType="numeric"
+                style={[typography.subheading, { color: colors.text, textAlign: 'right', width: 40 }]}
+              />
+              <TouchableOpacity onPress={() => setUnits(units === 'Y' ? 'M' : 'Y')}>
+                <Text style={[typography.subheading, { color: colors.textSecondary }]}> {units} ❯</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={[styles.settingRow, { borderBottomColor: colors.border }]}>
+            <Text style={[typography.tag, { color: colors.textSecondary }]}>Split Distance</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <TextInput
+                value={splitDistance}
+                onChangeText={setSplitDistance}
                 keyboardType="numeric"
                 style={[typography.subheading, { color: colors.text, textAlign: 'right', width: 40 }]}
               />

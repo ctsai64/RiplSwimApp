@@ -49,6 +49,7 @@ export interface Split {
   time: number; // Duration in milliseconds
   practiceId?: string; // Optional reference to practice
   username?: string; // Username who recorded this split
+  isFinal?: boolean; // Marks the final recorded time for the event
 }
 
 // TimedSession for managing timer events

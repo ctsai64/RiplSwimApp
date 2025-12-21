@@ -51,7 +51,7 @@ export default function HomeScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}> 
-      <View style={[styles.header, { paddingHorizontal: spacing.screenPadding, paddingTop: spacing.screenPadding, paddingBottom: spacing.screenPadding / 2 }]}> 
+      <View style={{ paddingHorizontal: spacing.screenPadding, paddingTop: spacing.screenPadding, paddingBottom: spacing.screenPadding / 2 }}> 
         <Pressable
           onPress={() => setMenuOpen((prev) => !prev)}
           style={[styles.menuButton, { borderColor: colors.border, backgroundColor: colors.background }]}

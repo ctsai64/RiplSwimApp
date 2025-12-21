@@ -6,7 +6,7 @@ export const TypographyScale = {
     fontFamily: FontFamily.bold,
     fontSize: 48,
     letterSpacing: -2,
-    marginBottom: Spacing.screenPadding / 2,
+    marginBottom: Spacing.screenPadding / 4,
   },
   heading: {
     fontFamily: FontFamily.semiBold,

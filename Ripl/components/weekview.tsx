@@ -45,7 +45,7 @@ export function WeekView({
   });
 
   return (
-    <View style={[styles.wrapper, { marginVertical: spacing.screenPadding }]}>
+    <View style={[styles.wrapper, { marginVertical: spacing.screenPadding/2 }]}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => setWeekOffset(w => w - 1)}>
           <Text style={[styles.arrow, { color: colors.primary }]}>‹</Text>

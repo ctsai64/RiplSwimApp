@@ -72,12 +72,13 @@ export default function EditPracticeScreen() {
       <Text style={[typography.heading, { marginBottom: 4 }]}>{practice.name}</Text>
       <Text style={[typography.paragraph, { color: colors.textSecondary, marginBottom: spacing.screenPadding }]}>{parseDateTime(practice)}</Text>
 
+    <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
+
       {!isTimeMode && (
         <>
           <Pressable style={[styles.primaryBtn, { backgroundColor: colors.primary, marginBottom: spacing.screenPadding }]}>
             <Text style={[typography.paragraph, { color: colors.background, fontWeight: '700' }]}>Capture Sets</Text>
           </Pressable>
-
           <Frame1 style={{ width: '100%', marginBottom: spacing.screenPadding }}>
             <Text style={[typography.paragraph, { color: colors.textSecondary }]}>Summary</Text>
             <Text style={typography.paragraph}>{computeEstimatedDistance(practice)} {practice.units} • {computeEstimatedDuration(practice)}</Text>
@@ -89,7 +90,6 @@ export default function EditPracticeScreen() {
         </>
       )}
 
-      <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
         {practice.sets.map((set, setIdx) => {
           const hasAnySelected = set.things.some(thing => isItemSelected(setIdx, String(thing.id)));
           return (

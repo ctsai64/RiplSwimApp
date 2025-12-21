@@ -1,38 +1,44 @@
-import React, { createContext, useContext, useMemo, useState } from 'react';
-import { DarkColors, LightColors, ThemeColors } from '../constants/design';
+import React, { createContext, useContext, ReactNode } from 'react';
+import { useColorScheme } from 'react-native';
+import { 
+  LightColors, 
+  DarkColors, 
+  Spacing, 
+  ThemeColors 
+} from '../constants/design';
+import { TypographyScale } from '../theme/typography';
 
-type ThemeContextValue = {
+export type Theme = {
   colors: ThemeColors;
-  isDarkMode: boolean;
-  toggleDarkMode: () => void;
+  spacing: typeof Spacing;
+  typography: typeof TypographyScale;
+  isDark: boolean;
 };
 
-const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
+const ThemeContext = createContext<Theme | undefined>(undefined);
 
-export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+export const ThemeProvider = ({ children }: { children: ReactNode }) => {
+  const colorScheme = useColorScheme();
+  const isDark = colorScheme === 'dark';
 
-  const colors = isDarkMode ? DarkColors : LightColors;
+  const theme: Theme = {
+    colors: isDark ? DarkColors : LightColors,
+    spacing: Spacing,
+    typography: TypographyScale,
+    isDark,
+  };
 
-  const value = useMemo(
-    () => ({
-      colors,
-      isDarkMode,
-      toggleDarkMode: () => setIsDarkMode((prev) => !prev),
-    }),
-    [colors, isDarkMode],
+  return (
+    <ThemeContext.Provider value={theme}>
+      {children}
+    </ThemeContext.Provider>
   );
-
-  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
 };
 
 export const useTheme = () => {
   const context = useContext(ThemeContext);
-
   if (!context) {
     throw new Error('useTheme must be used within a ThemeProvider');
   }
-
   return context;
 };
-

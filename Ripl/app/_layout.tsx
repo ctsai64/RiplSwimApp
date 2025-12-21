@@ -1,54 +1,59 @@
 import { Stack } from "expo-router";
-import { useEffect } from "react";
-import * as SplashScreen from "expo-splash-screen";
-import {
-  useFonts,
-  Inter_400Regular,
-  Inter_500Medium,
-  Inter_700Bold,
-} from "@expo-google-fonts/inter";
-import { ThemeProvider, useTheme } from "../context/ThemeContext";
-import { GlobalDataProvider } from '../context/GlobalDataContext';
+import { useCallback, useEffect, useState } from 'react';
+import { View } from 'react-native';
+import * as Font from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
+import { ThemeProvider, useTheme } from '../context/ThemeContext';
+import { FontAssets } from '../theme/fonts';
 
 SplashScreen.preventAutoHideAsync();
 
-const ThemedStack = () => {
+function RootLayoutNav() {
   const { colors } = useTheme();
-
+  
   return (
-    <Stack
+    <Stack 
       screenOptions={{
         headerShown: false,
-        contentStyle: {
-          backgroundColor: colors.background,
-        },
+        contentStyle: { backgroundColor: colors.background }
       }}
     />
   );
-};
+}
 
 export default function RootLayout() {
-  const [fontsLoaded, fontError] = useFonts({
-    Inter_400Regular,
-    Inter_500Medium,
-    Inter_700Bold,
-  });
+  const [fontsLoaded, setFontsLoaded] = useState(false);
 
   useEffect(() => {
-    if (fontsLoaded || fontError) {
-      SplashScreen.hideAsync();
+    async function loadResourcesAndDataAsync() {
+      try {
+        await Font.loadAsync(FontAssets);
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        setFontsLoaded(true);
+      }
     }
-  }, [fontsLoaded, fontError]);
 
-  if (!fontsLoaded && !fontError) {
+    loadResourcesAndDataAsync();
+  }, []);
+
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
     return null;
   }
 
   return (
-    <GlobalDataProvider>
-      <ThemeProvider>
-        <ThemedStack />
-      </ThemeProvider>
-    </GlobalDataProvider>
+    <ThemeProvider>
+      <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+        <RootLayoutNav />
+      </View>
+    </ThemeProvider>
   );
 }
+

@@ -35,6 +35,13 @@ export const DarkColors: ThemeColors = {
   textSecondary: '#AAAAAA',
 };
 
+export const FontFamily = {
+  regular: 'DMSans-Regular',
+  medium: 'DMSans-Medium',
+  semiBold: 'DMSans-SemiBold',
+  bold: 'BarlowCondensed-SemiBold',
+};
+
 export const Spacing = {
   screenPadding: 24,
   cardPadding: 24,
@@ -46,5 +53,27 @@ export const Spacing = {
   },
 };
 
-// Typography is now in theme/typography.ts
-// Import TypographyScale from there instead
+export const TypographyScale = {
+  h1: {
+    fontFamily: FontFamily.bold,
+    fontSize: 48,
+    letterSpacing: -2,
+  },
+  time: {
+    fontFamily: FontFamily.medium,
+    fontSize: 20,
+  },
+  paragraph: {
+    fontFamily: FontFamily.regular,
+    fontSize: 16,
+  },
+  tag: {
+    fontFamily: FontFamily.regular,
+    fontSize: 12,
+  },
+  user: {
+    fontFamily: FontFamily.semiBold,
+    fontSize: 16,
+  },
+};
+

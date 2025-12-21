@@ -4,6 +4,7 @@ import { users as initialUsers, currentUserUsername } from '../constants/data/us
 import { groups as initialGroups, selectedGroup as initialSelectedGroup } from '../constants/data/groups';
 import { practices as initialPractices } from '../constants/data/practices';
 
+
 interface GlobalDataContextType {
   users: User[];
   groups: Group[];
@@ -24,7 +25,7 @@ export const GlobalDataProvider: React.FC<{children: React.ReactNode}> = ({ chil
   const [groups, setGroups] = useState<Group[]>(initialGroups || []);
   const [practices, setPractices] = useState<Practice[]>(initialPractices || []);
   const [currentUser, setCurrentUser] = useState(
-    initialUsers.find(u => u.username === currentUserUsername) || null
+    users.find(u => u.username === currentUserUsername) || null
   );
   const [selectedGroup, setSelectedGroup] = useState<string | null>(initialSelectedGroup);
 
@@ -51,4 +52,3 @@ export function useGlobalData() {
   if (!context) throw new Error("useGlobalData must be used within GlobalDataProvider");
   return context;
 }
-

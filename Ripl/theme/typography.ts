@@ -24,7 +24,7 @@ export const TypographyScale = {
   },
   time: {
     fontFamily: FontFamily.medium,
-    fontSize: 20,
+    fontSize: 40,
   },
   tag: {
     fontFamily: FontFamily.regular,

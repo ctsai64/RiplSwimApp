@@ -1,5 +1,5 @@
-import React, { createContext, useState, useContext } from 'react';
-import { User, Group, Practice } from '../constants/interfaces';
+import React, { createContext, useState, useContext, useCallback } from 'react';
+import { User, Group, Practice, Split, TimedSession } from '../constants/interfaces';
 import { users as initialUsers, currentUserUsername } from '../constants/data/users';    
 import { groups as initialGroups, selectedGroup as initialSelectedGroup } from '../constants/data/groups';
 import { practices as initialPractices } from '../constants/data/practices';
@@ -8,6 +8,7 @@ interface GlobalDataContextType {
   users: User[];
   groups: Group[];
   practices: Practice[];
+  timedSessions: TimedSession[];
   setPractices: (practices: Practice[]) => void;
   currentUser: User | null;
   setCurrentUser: (user: User) => void;
@@ -15,6 +16,10 @@ interface GlobalDataContextType {
   setSelectedGroup: (groupId: string | null) => void;
   updateUsers: (users: User[]) => void;
   updateGroups: (groups: Group[]) => void;
+  addSplitToUser: (username: string, split: Split) => void;
+  addSplitToPractice: (practiceId: string, split: Split) => void;
+  createTimedSession: (session: TimedSession) => void;
+  updateTimedSession: (sessionId: string, updates: Partial<TimedSession>) => void;
 }
 
 const GlobalDataContext = createContext<GlobalDataContextType | undefined>(undefined);
@@ -23,16 +28,46 @@ export const GlobalDataProvider: React.FC<{children: React.ReactNode}> = ({ chil
   const [users, setUsers] = useState<User[]>(initialUsers || []);
   const [groups, setGroups] = useState<Group[]>(initialGroups || []);
   const [practices, setPractices] = useState<Practice[]>(initialPractices || []);
+  const [timedSessions, setTimedSessions] = useState<TimedSession[]>([]);
   const [currentUser, setCurrentUser] = useState(
     initialUsers.find(u => u.username === currentUserUsername) || null
   );
   const [selectedGroup, setSelectedGroup] = useState<string | null>(initialSelectedGroup);
+
+  const addSplitToUser = useCallback((username: string, split: Split) => {
+    setUsers(prev => prev.map(user => 
+      user.username === username 
+        ? { ...user, splits: [...user.splits, split] }
+        : user
+    ));
+  }, []);
+
+  const addSplitToPractice = useCallback((practiceId: string, split: Split) => {
+    setPractices(prev => prev.map(practice =>
+      practice.id === practiceId
+        ? { ...practice, splits: [...practice.splits, split] }
+        : practice
+    ));
+  }, []);
+
+  const createTimedSession = useCallback((session: TimedSession) => {
+    setTimedSessions(prev => [...prev, session]);
+  }, []);
+
+  const updateTimedSession = useCallback((sessionId: string, updates: Partial<TimedSession>) => {
+    setTimedSessions(prev => prev.map(session =>
+      session.id === sessionId
+        ? { ...session, ...updates }
+        : session
+    ));
+  }, []);
 
   return (
     <GlobalDataContext.Provider value={{
       users,
       groups,
       practices,
+      timedSessions,
       setPractices,
       currentUser,
       setCurrentUser,
@@ -40,6 +75,10 @@ export const GlobalDataProvider: React.FC<{children: React.ReactNode}> = ({ chil
       setSelectedGroup,
       updateUsers: setUsers,
       updateGroups: setGroups,
+      addSplitToUser,
+      addSplitToPractice,
+      createTimedSession,
+      updateTimedSession,
     }}>
       {children}
     </GlobalDataContext.Provider>

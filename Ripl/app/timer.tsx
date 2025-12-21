@@ -1,121 +1,141 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { View, Text, StyleSheet, Pressable } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { SafeAreaView, View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import { useTheme } from '../context/ThemeContext';
+import { useGlobalData } from '../context/GlobalDataContext';
+import { EventSettingsSheet, TimingConfig } from '../components/eventSettings';
+import { Frame1 } from '../components/frame';
 
-function formatTime(ms: number) {
-  const minutes = Math.floor(ms / 60000);
-  const seconds = Math.floor((ms % 60000) / 1000);
-  const hundredths = Math.floor((ms % 1000) / 10);
-
-  if (minutes > 0) {
-    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}.${String(hundredths).padStart(2, '0')}`;
-  }
-  return `${String(seconds).padStart(2, '0')}.${String(hundredths).padStart(2, '0')}`;
-}
-
-export default function TimerScreen() {
+export default function Timer() {
+  const router = useRouter();
   const { colors, typography, spacing } = useTheme();
-  const [isRunning, setIsRunning] = useState(false);
-  const [elapsedMs, setElapsedMs] = useState(0);
-  const [splits, setSplits] = useState<number[]>([]);
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const baselineRef = useRef<number | null>(null);
+  const { currentUser, addSplitToUser } = useGlobalData();
 
-  useEffect(() => () => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-    }
+  const [showSettings, setShowSettings] = useState(true);
+  const [config, setConfig] = useState<TimingConfig | null>(null);
+  const [isRunning, setIsRunning] = useState(false);
+  const [elapsedTime, setElapsedTime] = useState(0);
+
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const displayName = (name: string) => name ? name.charAt(0).toUpperCase() + name.slice(1) : '';
+
+  useEffect(() => {
+    return () => { if (timerRef.current) clearInterval(timerRef.current); };
   }, []);
 
   const startTimer = () => {
-    if (isRunning) return;
-    baselineRef.current = Date.now() - elapsedMs;
-    intervalRef.current = setInterval(() => {
-      if (baselineRef.current) {
-        setElapsedMs(Date.now() - baselineRef.current);
-      }
-    }, 100);
+    const startTime = Date.now() - elapsedTime;
     setIsRunning(true);
+    timerRef.current = setInterval(() => {
+      setElapsedTime(Date.now() - startTime);
+    }, 10);
   };
 
   const stopTimer = () => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-    }
-    intervalRef.current = null;
+    if (timerRef.current) clearInterval(timerRef.current);
     setIsRunning(false);
   };
 
-  const handleSplit = () => {
-    if (!isRunning) return;
-    setSplits((prev) => [...prev, elapsedMs]);
+  const resetTimer = () => {
+    stopTimer();
+    setElapsedTime(0);
   };
 
-  const handleUndoSplit = () => {
-    setSplits((prev) => prev.slice(0, -1));
+  const formatTime = (ms: number) => {
+    const mins = Math.floor(ms / 60000);
+    const secs = Math.floor((ms % 60000) / 1000);
+    const cs = Math.floor((ms % 1000) / 10);
+    return `${mins}:${secs.toString().padStart(2, '0')}.${cs.toString().padStart(2, '0')}`;
   };
 
-  const mainActionLabel = isRunning ? 'Stop' : 'Start';
-  const latestSplit = useMemo(() => (splits.length ? splits[splits.length - 1] : null), [splits]);
-
-  const buttonBase = {
-    paddingVertical: spacing.buttonPadding.vertical * 2,
-    paddingHorizontal: spacing.screenPadding / 2,
-    borderRadius: spacing.borderRadius.card,
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-  } as const;
+  const handleRecordSplit = (username: string) => {
+    if (!config) return;
+    const split = {
+      instance: new Date().toISOString(),
+      distance: config.distance,
+      stroke: config.stroke,
+      time: elapsedTime,
+      username,
+    };
+    addSplitToUser(username, split);
+  };
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.background, padding: spacing.screenPadding }]}> 
-      <Text style={[typography.heading, { color: colors.text, marginBottom: spacing.screenPadding / 2 }]}>Timer</Text>
-
-      <View style={{ marginTop: spacing.screenPadding }}>
-        <Text style={[typography.heading, { color: colors.textSecondary, marginBottom: spacing.screenPadding / 4 }]}>Split</Text>
-        <Text style={[typography.title, { color: colors.text }]}>{latestSplit !== null ? formatTime(latestSplit) : '—'}</Text>
+    <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => router.push('/home')} style={styles.iconBtn}>
+          <Ionicons name="arrow-back" size={24} color={colors.text} />
+        </TouchableOpacity>
+        <Text style={[typography.tag, { fontWeight: 'bold' }]}>Timed Session</Text>
+        <TouchableOpacity onPress={() => setShowSettings(true)} style={styles.iconBtn}>
+          <Ionicons name="settings-outline" size={24} color={colors.text} />
+        </TouchableOpacity>
       </View>
 
-      <View style={{ marginTop: spacing.screenPadding / 2 }}>
-        <Text style={[typography.heading, { color: colors.textSecondary, marginBottom: spacing.screenPadding / 4 }]}>Elapsed</Text>
-        <Text style={[typography.title, { color: colors.text }]}>{formatTime(elapsedMs)}</Text>
-      </View>
-
-      <View style={[styles.buttonRow, { gap: spacing.screenPadding / 2, marginTop: spacing.screenPadding }]}> 
-        <Pressable
-          style={[buttonBase, { backgroundColor: isRunning ? colors.secondary : colors.primary }]}
-          onPress={() => (isRunning ? stopTimer() : startTimer())}
-        >
-          <Text style={[typography.paragraph, { color: colors.background, fontWeight: '700' }]}>{mainActionLabel}</Text>
-        </Pressable>
-        <Pressable style={[buttonBase, { backgroundColor: colors.border }]} onPress={handleUndoSplit}>
-          <Text style={[typography.paragraph, { color: colors.text }]}>Undo</Text>
-        </Pressable>
-        <Pressable style={[buttonBase, { backgroundColor: colors.accent }]} onPress={handleSplit}>
-          <Text style={[typography.paragraph, { color: '#FFFFFF', fontWeight: '700' }]}>Split</Text>
-        </Pressable>
-      </View>
-
-      {splits.length > 0 && (
-        <View style={{ marginTop: spacing.screenPadding }}>
-          <Text style={[typography.heading, { color: colors.text, marginBottom: spacing.screenPadding / 4 }]}>Splits</Text>
-          {splits.map((s, idx) => (
-            <Text key={idx} style={[typography.paragraph, { color: colors.textSecondary, marginBottom: 4 }]}>
-              {idx + 1}. {formatTime(s)}
+      <ScrollView contentContainerStyle={{ padding: spacing.screenPadding }}>
+        {config && (
+          <View style={styles.eventInfo}>
+            <Text style={[typography.title]}>
+              {config.distance}{config.units === 'yards' ? 'Y' : 'M'} {config.stroke}
             </Text>
-          ))}
-        </View>
-      )}
-    </View>
+            <Text style={[typography.subheading, { color: colors.textSecondary }]}>Round 1 of {config.rounds}</Text>
+          </View>
+        )}
+
+        {config?.heats.map((heat) => (
+          <Frame1 key={heat.id} style={styles.heatCard}>
+            <View style={styles.cardHeader}>
+              <Text style={typography.subheading}>Heat {heat.id} ⌵</Text>
+            </View>
+
+            <View style={styles.controlRow}>
+              <TouchableOpacity onPress={isRunning ? stopTimer : startTimer} style={[styles.playBtn, { backgroundColor: colors.accent }]}>
+                <Ionicons name={isRunning ? "pause" : "play"} size={22} color="white" />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={resetTimer} style={styles.stopBtn}>
+                <View style={[styles.stopSquare, { backgroundColor: colors.textSecondary }]} />
+              </TouchableOpacity>
+              <Text style={[typography.time, { marginLeft: 'auto' }]}>{formatTime(elapsedTime)}</Text>
+            </View>
+
+            {heat.participants.map((swimmer) => (
+              <View key={swimmer} style={styles.swimmerSplitRow}>
+                <Text style={[typography.paragraph, { flex: 0.5 }]}>{displayName(swimmer)}</Text>
+                <TouchableOpacity>   
+                  <Text style={[typography.tag, { color: colors.textSecondary, fontWeight: 'bold' }]}>UNDO</Text>
+                </TouchableOpacity>
+                <TouchableOpacity 
+                  onPress={() => handleRecordSplit(swimmer)}
+                  style={[styles.splitBtn, { backgroundColor: colors.secondary }]}
+                >   
+                  <Text style={[typography.tag, { color: colors.primary, fontWeight: 'bold' }]}>SPLIT</Text>
+                </TouchableOpacity>
+              </View>
+            ))}
+          </Frame1>
+        ))}
+      </ScrollView>
+
+      <EventSettingsSheet 
+        isVisible={showSettings} 
+        onClose={() => setShowSettings(false)} 
+        onStartTiming={(cfg) => { setConfig(cfg); setShowSettings(false); resetTimer(); }} 
+      />
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  buttonRow: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-  },
+  header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 10 },
+  iconBtn: { padding: 8 },
+  eventInfo: { alignItems: 'center', marginBottom: 24 },
+  heatCard: { marginBottom: 16, padding: 16 },
+  cardHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 },
+  controlRow: { flexDirection: 'row', gap: 12, marginBottom: 20 },
+  playBtn: { width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center' },
+  stopBtn: { width: 44, height: 44, borderRadius: 22, borderWidth: 1, borderColor: '#DDD', alignItems: 'center', justifyContent: 'center' },
+  stopSquare: { width: 12, height: 12, borderRadius: 2 },
+  swimmerSplitRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 10, borderTopWidth: 1, borderTopColor: '#F0F0F0' },
+  splitBtn: { paddingVertical: 6, paddingHorizontal: 12, borderRadius: 12 }
 });

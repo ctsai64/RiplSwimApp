@@ -1,31 +1,38 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useTheme } from '../context/ThemeContext';
 
 interface TagProps {
   label: string;
+  onPress?: () => void;
+  isSelected?: boolean;
 }
 
-export const Tag: React.FC<TagProps> = ({ label }) => {
+export const Tag: React.FC<TagProps> = ({ label, onPress, isSelected = false }) => {
   const { colors, spacing, typography } = useTheme();
 
+  const Component = onPress ? TouchableOpacity : View;
+
   return (
-    <View style={[
-      styles.tag, 
-      { 
-        backgroundColor: colors.secondary, 
-        borderRadius: spacing.borderRadius.tag,
-        paddingVertical: spacing.buttonPadding.vertical,
-        paddingHorizontal: spacing.buttonPadding.horizontal,
-      }
-    ]}>
+    <Component 
+      onPress={onPress}
+      style={[
+        styles.tag, 
+        { 
+          backgroundColor: isSelected ? colors.primary : colors.secondary, 
+          borderRadius: spacing.borderRadius.tag,
+          paddingVertical: spacing.buttonPadding.vertical,
+          paddingHorizontal: spacing.buttonPadding.horizontal,
+        }
+      ]}
+    >
       <Text style={[
         typography.tag, 
-        { color: colors.primary, textTransform: 'uppercase', fontWeight: 'bold' }
+        { color: isSelected ? '#FFFFFF' : colors.primary, textTransform: 'uppercase', fontWeight: 'bold' }
       ]}>
         {label}
       </Text>
-    </View>
+    </Component>
   );
 };
 

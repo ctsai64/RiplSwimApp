@@ -46,7 +46,24 @@ export interface Split {
   instance: string; // ISO date string
   distance: number;
   stroke: string;
-  time: number; // Duration in seconds
+  time: number; // Duration in milliseconds
+  practiceId?: string; // Optional reference to practice
+  username?: string; // Username who recorded this split
+}
+
+// TimedSession for managing timer events
+export interface TimedSession {
+  id: string;
+  name: string;
+  distance: number;
+  units: 'yards' | 'meters';
+  stroke: string;
+  rounds: number;
+  currentRound: number;
+  participants: string[]; // Usernames
+  splits: Split[];
+  practiceId?: string; // Link to practice if part of one
+  createdAt: string; // ISO date
 }
 
 // Group is referenced by name

@@ -45,6 +45,3 @@ export const Spacing = {
     tag: 16,
   },
 };
-
-// Typography is now in theme/typography.ts
-// Import TypographyScale from there instead

@@ -4,6 +4,7 @@ import { View } from 'react-native';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { ThemeProvider, useTheme } from '../context/ThemeContext';
+import { GlobalDataProvider } from '../context/GlobalDataContext';
 import { FontAssets } from '../theme/fonts';
 
 SplashScreen.preventAutoHideAsync();
@@ -49,11 +50,13 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider>
-      <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-        <RootLayoutNav />
-      </View>
-    </ThemeProvider>
+    <GlobalDataProvider>
+      <ThemeProvider>
+        <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+          <RootLayoutNav />
+        </View>
+      </ThemeProvider>
+    </GlobalDataProvider>
   );
 }
 

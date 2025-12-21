@@ -1,16 +1,21 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Pressable } from 'react-native';
 import { useTheme } from '../context/ThemeContext';
+import { Ionicons } from '@expo/vector-icons';
 
 type TimelineItemProps = {
   isLast: boolean;
-  isCompleted?: boolean;
+  isTimeMode?: boolean;
+  isSelected?: boolean;
+  onSelect?: () => void;
   children: React.ReactNode;
 };
 
 export const TimelineItem: React.FC<TimelineItemProps> = ({
   isLast,
-  isCompleted,
+  isTimeMode,
+  isSelected,
+  onSelect,
   children,
 }) => {
   const { colors, spacing } = useTheme();
@@ -18,19 +23,20 @@ export const TimelineItem: React.FC<TimelineItemProps> = ({
   return (
     <View style={styles.timelineEntry}>
       <View style={styles.timelineColumn}>
-        <View 
+        {/* Solid Circle UI */}
+        <Pressable 
+          disabled={!isTimeMode}
+          onPress={onSelect}
           style={[
             styles.timelineCircle, 
             { 
-              backgroundColor: isCompleted ? colors.accent : colors.muted,
-              marginTop: spacing.cardPadding *2
+              backgroundColor: isSelected ? colors.accent : colors.muted, // Solid background
+              marginTop: spacing.cardPadding * 2
             }
           ]} 
         >
-          {isCompleted && (
-             <View style={styles.checkmarkPlaceholder} /> 
-          )}
-        </View>
+          {isSelected && <Ionicons name="checkmark" size={16} color="white" />}
+        </Pressable>
 
         {!isLast && (
           <View 
@@ -38,16 +44,15 @@ export const TimelineItem: React.FC<TimelineItemProps> = ({
               styles.timelineLine, 
               { 
                 backgroundColor: colors.muted,
-                top: (spacing.cardPadding * 2) + CIRCLE_SIZE*1.5,
+                // Ensures line starts exactly from the circle bottom
+                top: (spacing.cardPadding * 2) + CIRCLE_SIZE,
+                bottom: -spacing.screenPadding, 
               }
             ]} 
           />
         )}
       </View>
-      <View style={[
-        styles.contentColumn, 
-        { marginBottom: isLast ? 0 : spacing.screenPadding }
-      ]}>
+      <View style={[styles.contentColumn, { marginBottom: isLast ? 0 : spacing.screenPadding }]}>
         {children}
       </View>
     </View>
@@ -76,7 +81,6 @@ const styles = StyleSheet.create({
   },
   timelineLine: {
     position: 'absolute',
-    bottom: -24,
     width: LINE_WIDTH,
     borderRadius: LINE_WIDTH / 2,
     zIndex: 1,
@@ -84,13 +88,4 @@ const styles = StyleSheet.create({
   contentColumn: {
     flex: 1,
   },
-  checkmarkPlaceholder: {
-    width: 12,
-    height: 6,
-    borderLeftWidth: 2,
-    borderBottomWidth: 2,
-    borderColor: 'white',
-    transform: [{ rotate: '-45deg' }],
-    marginBottom: 2,
-  }
 });

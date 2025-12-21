@@ -121,9 +121,13 @@ export default function HomeScreen() {
           onSelectDate={setSelectedDate}
         />
         <Text style={[typography.subheading, { color: colors.text }]}>Workouts</Text>
-          <ScrollView showsVerticalScrollIndicator={false}> 
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            style={{ flexGrow: 0 }}
+            contentContainerStyle={{ paddingBottom: 0 }}
+          > 
         {selectedPractices.length > 0 && (
-          <View style={{ marginTop: spacing.screenPadding / 5, paddingRight: spacing.screenPadding/2 }}>
+          <View style={{ marginVertical: spacing.screenPadding / 4, paddingRight: spacing.screenPadding / 2, flexShrink: 1 }}>
             {selectedPractices.map((practice, index) => (
               <TimelineItem 
                 key={practice.id} 
@@ -151,13 +155,13 @@ export default function HomeScreen() {
 
         {selectedPractices.length === 0 && (
           <View style={{ marginTop: spacing.screenPadding, alignItems: 'center' }}>
-            <Text style={[typography.paragraph, { color: colors.textSecondary }]}>
+            <Text style={[typography.paragraph, { color: colors.textSecondary, marginBottom: spacing.screenPadding }]}>
               No practices scheduled for this day.
             </Text>
           </View>
         )}
       </ScrollView>
-
+        <Text style={[typography.subheading, { color: colors.text }]}>Explore</Text>
       <View style={[styles.bottomNav, { paddingHorizontal: spacing.screenPadding / 2 }]}> 
         {navItems.map((item) => (
           <Pressable
@@ -200,11 +204,15 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   bottomNav: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
     flexDirection: 'row',
     backgroundColor: '#000000',
     paddingVertical: 14,
     borderTopLeftRadius: 24,
-    borderTopRightRadius: 24
+    borderTopRightRadius: 24,
   },
   navItem: {
     flex: 1,

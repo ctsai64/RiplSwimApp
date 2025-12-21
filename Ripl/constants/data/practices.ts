@@ -44,7 +44,7 @@ export const practices: Practice[] = [
     id: 'p2',
     dateTime: '2025-12-14T18:00:00Z',
     name: 'Sprint Sunday',
-    type: ['Sprints'],
+    type: ['Sprint'],
     attendees: ['aaron', 'dom'],
     location: 'Sheer Pool',
     units: 'yards',

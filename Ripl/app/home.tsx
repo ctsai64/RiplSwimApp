@@ -12,9 +12,9 @@ import { displayUsername } from '../utils/userHelpers';
 import { getPracticesForUser, getPracticeDates, computeEstimatedDistance, computeEstimatedDuration, formatPracticeTime, formatYMD, formatPracticeMembers } from '../utils/practiceHelpers';
 
 const navItems = [
-  { label: 'Groups', route: '/groups' },
-  { label: 'Timer', route: '/timer' },
-  { label: 'Profile', route: '/profile' },
+  { label: 'Groups', route: '/groups' as const},
+  { label: 'Timer', route: '/timer' as const },
+  { label: 'Profile', route: '/profile' as const },
 ];
 
 export default function HomeScreen() {
@@ -132,7 +132,7 @@ export default function HomeScreen() {
               <TimelineItem 
                 key={practice.id} 
                 isLast={index === selectedPractices.length - 1}
-                isCompleted={false}
+                //isCompleted={false}
               >
                 <Frame1 onPress={() => { selectPractice(practice.id); router.push('/edit-practice'); }}>
                   <Text style={[typography.heading, { color: colors.text }]}>
